@@ -94,10 +94,11 @@ Not covered by these numbers:
 6. **Videos** still stream from the client's Bunny Stream library (`vz-a9787108-ab4.b-cdn.net`). That's intended: it's their video host, not Webflow's.
 7. **Mast scripts** were loaded from `@latest` on jsDelivr. The copies taken on 28 Oct 2026 are now pinned locally.
 
-**Carried over as-is (not "fixed", so they read as faithful):**
-- the Webflow default favicon and webclip
-- a JS error that exists on the live site: `handleSkipLink is not defined`, from the nav embed's skip-link backup
-- the footer typo "Site desing & dev by"
+**Carried over as-is:** the Webflow default favicon and webclip.
+
+**Fixed after migration (approved), so these differ from the live site:**
+- The nav's skip-link backup called an undefined `handleSkipLink`, which threw on every page load. It is now defined in `Nav.astro`: it moves focus to `<main>` (nothing has `id="main"`) and scrolls with Lenis.
+- Footer typo "Site desing & dev by" → "Site design & dev by".
 
 ## Needs you
 
@@ -106,5 +107,4 @@ Not covered by these numbers:
 | Where content lives | Keep JSON in the repo for now; it's 24 items. If non-developers need to edit, connect a headless CMS (e.g. Sanity) and keep the same schema. |
 | Production domain | `https://www.raesocialagency.com` is set in `astro.config.mjs` and `src/data/seo.ts`. Change it if that's wrong. |
 | Favicon | Replace the Webflow default icons in `public/images/` with brand ones. |
-| `handleSkipLink` error and footer typo | Fix both: a two-line change each. Left alone until approved. |
 | Font licences | Geist and Geist Mono are OFL. Apfel Grotezk is free for commercial use under Collletttivo's licence; confirm the licence covers self-hosting. |

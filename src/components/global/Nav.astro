@@ -63,6 +63,18 @@
     skipLinkEle.addEventListener('keydown', handleSkipLink);
   });
 
+  // Moves focus to <main> (no element has id="main"), scrolling with Lenis when present
+  function handleSkipLink(e) {
+    if (e.type === 'keydown' && e.key !== ' ') return; // Enter already fires click on a link
+    const target = document.getElementById('main') || document.querySelector('main');
+    if (!target) return;
+    e.preventDefault();
+    if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true });
+    try { if (typeof lenis !== 'undefined' && lenis.scrollTo) { lenis.scrollTo(target); return; } } catch (err) {}
+    target.scrollIntoView();
+  }
+
   // Nav blend mode
   function initNavHeroBlend() {
   const nav = document.querySelector('.nav');
