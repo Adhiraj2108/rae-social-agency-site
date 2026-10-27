@@ -1,0 +1,38 @@
+[
+  {
+    "id": "campaign-production",
+    "name": "Campaign production",
+    "order": 1,
+    "description": "<p>We believe every campaign should disrupt, educate or entertain. Through original concepts and meaningful storytelling, we challenge the expected and create work that gives audiences a reason to pay attention.</p>"
+  },
+  {
+    "id": "content-production",
+    "name": "Content production",
+    "order": 2,
+    "description": "<p>Our trusted team of creative directors, photographers, videographers and creators brings the right expertise to every project, creating work that reflects the true value of your business.</p>"
+  },
+  {
+    "id": "post-production",
+    "name": "Post-Production",
+    "order": 3,
+    "description": "<p>You shoot it. We edit it. We handle all <strong>post-production.</strong> We transform raw footage into polished, platform-ready content for in-store displays, websites and social media. Every detail, from the edit and pacing to sound and colour grading, is carefully considered to create cohesive content that feels true to your brand.</p>"
+  },
+  {
+    "id": "social-media-management",
+    "name": "Social media management",
+    "order": 4,
+    "description": "<p>We are your very own social media team. Strategists, creators, graphic designers, producers, photographers and videographers - all working together to bring your brand to life.</p>"
+  },
+  {
+    "id": "influencer-management-9svt9",
+    "name": "Influencer management",
+    "order": 5,
+    "description": "<p>We connect brands with trusted creators to build credibility, reach the right audiences and drive meaningful engagement.</p>"
+  },
+  {
+    "id": "paid-media",
+    "name": "Paid Media",
+    "order": 6,
+    "description": "<p>Paid media is one of the most effective ways to accelerate growth. Through strategic Meta Ads campaigns, we place your brand in front of the right audience to increase visibility, generate leads and attract more customers.</p>"
+  }
+]

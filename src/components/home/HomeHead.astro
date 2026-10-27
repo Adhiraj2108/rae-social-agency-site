@@ -1,0 +1,138 @@
+---
+// Home page <head> code: sticky testimonial states and project drawer empty-row hiding.
+---
+<style is:inline>
+  /* Testimonials */
+  /* Only applies once the script has set things up. Without JS / reduced motion / a single testimonial,
+   the section stays a normal stacked list. */
+  [data-tst='section'][data-tst-ready] {
+    position: relative;
+    height: calc(var(--tst-count) * var(--tst-step) + 100vh);
+    height: calc(var(--tst-count) * var(--tst-step) + 100svh);
+  }
+  [data-tst-ready] [data-tst='stage'] {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+  }
+  [data-tst-ready] [data-tst-list] {
+    display: grid;
+  }
+  [data-tst-ready] [data-tst='item'] {
+    grid-area: 1 / 1;
+    opacity: 0;
+    visibility: hidden;
+    /* outgoing: quick fade out, then hide */
+    transition:
+      opacity calc(var(--tst-fade) * 0.5) ease,
+      visibility 0s linear calc(var(--tst-fade) * 0.5);
+  }
+  [data-tst-ready] [data-tst='item'][data-tst-active] {
+    opacity: 1;
+    visibility: visible;
+    /* incoming: starts as the old one is nearly gone, so the two never overlap messily */
+    transition:
+      opacity var(--tst-fade) ease calc(var(--tst-fade) * 0.4),
+      visibility 0s;
+  }
+
+  /* Project drawer: Webflow already hides an empty CMS value (.w-dyn-bind-empty).
+   Also hide the label, border and spacing around it, so a project without credits,
+   services or a brief section leaves no empty row behind. */
+  .project-pan_meta:has(.w-dyn-bind-empty),
+  .project-brief_wrap:has(.w-dyn-bind-empty),
+  li:has(> .project-pan_meta .w-dyn-bind-empty) {
+    display: none;
+  }
+
+  /* Project drawer "More from" carousel: each slide carries a hidden flag bound to its video src.
+   An empty flag hides the slide; an empty Video 1 hides the whole section (videos are filled in order). */
+  .project-more_slide:has(> .project-more_flag.w-dyn-bind-empty),
+  .project-more_wrap:has(.project-more_scroll > :first-child > .project-more_flag.w-dyn-bind-empty) {
+    display: none;
+  }
+
+  /* Underlines CSS */
+  [data-underline-link] {
+    text-decoration: none;
+    position: relative;
+  }
+
+  [data-underline-link]::before,
+  [data-underline-link='alt']::before,
+  [data-underline-link='alt']::after {
+    content: '';
+    position: absolute;
+    bottom: -0.0625em;
+    left: 0;
+    width: 100%;
+    height: 0.0625em;
+    background-color: currentColor;
+    transition: transform 0.735s cubic-bezier(0.625, 0.05, 0, 1);
+    transform-origin: right;
+    transform: scaleX(0) rotate(0.001deg);
+  }
+
+  [data-underline-link='alt']::before {
+    transform-origin: left;
+    transform: scaleX(1) rotate(0.001deg);
+    transition-delay: 0.3s;
+  }
+
+  [data-underline-link='alt']::after {
+    transform-origin: right;
+    transform: scaleX(0) rotate(0.001deg);
+    transition-delay: 0s;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    [data-hover]:hover [data-underline-link]::before,
+    [data-underline-link]:hover::before {
+      transform-origin: left;
+      transform: scaleX(1) rotate(0.001deg);
+    }
+
+    [data-hover]:hover [data-underline-link='alt']::before,
+    [data-underline-link='alt']:hover::before {
+      transform-origin: right;
+      transform: scaleX(0) rotate(0.001deg);
+      transition-delay: 0s;
+    }
+
+    [data-hover]:hover [data-underline-link='alt']::after,
+    [data-underline-link='alt']:hover::after {
+      transform-origin: left;
+      transform: scaleX(1) rotate(0.001deg);
+      transition-delay: 0.3s;
+    }
+  }
+
+  /* Truncate after 3 lines */
+  .truncate-3-lines {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Animate Accordion Bottom Grid */
+  .accordion-css__item-bottom {
+    transition: grid-template-rows 0.6s cubic-bezier(0.625, 0.05, 0, 1);
+  }
+
+  [data-accordion-status='active'] .accordion-css__item-bottom {
+    grid-template-rows: 1fr;
+  }
+
+  /* Animate Icon */
+  .accordion-css__icon-vertical {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  [data-accordion-status='active'] .accordion-css__icon-vertical {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+</style>

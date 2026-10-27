@@ -1,0 +1,57 @@
+---
+import BunnyBg from '../BunnyBg.astro';
+import { bindClass, getProjects } from '../../lib/cms';
+
+const projects = await getProjects();
+---
+<section id="work" class="section">
+  <div class="w-layout-blockcontainer container w-container">
+    <div class="border-section-top"></div>
+    <div class="row row-justify-between">
+      <div class="col col-lg-4 col-md-12">
+        <div class="project_header">
+          <h2 class="eyebrow u-mb-0">Selected Projects</h2>
+          <p data-reveal="lines" class="h3">We find what makes you matter, then amplify it</p>
+        </div>
+      </div>
+      <div class="col col-lg-6 col-md-12">
+        <div class="w-dyn-list">
+          <div role="list" class="project_list w-dyn-items">
+            {projects.map((p) => (
+              <div role="listitem" class="w-dyn-item">
+                <div class="project_card">
+                  <div class="project_wrap">
+                    <div class="project_content">
+                      <div class="project_title">
+                        <div class="project_title-inner">
+                          <p class={bindClass('h3 u-mb-0', p.clientName)}>{p.clientName}</p>
+                          <p class="h5">{p.name}</p>
+                        </div>
+                        <p class={bindClass('eyebrow', p.servicesProvided)}>{p.servicesProvided}</p>
+                      </div>
+                      <div class="project_footer">
+                        <div class="truncate_css w-embed"><style is:inline>
+              .truncate-3-lines {
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+              }
+            </style></div>
+                        <div class={bindClass('truncate-3-lines', p.brief)}>{p.brief}</div>
+                        <div class="button-wrap"><a data-drawer-open={p.id} data-underline-link="alt" href="#" class="underline-link is--alt">Project details</a></div>
+                      </div>
+                    </div>
+                    <div data-reel-in="" class="project_media">
+                      <BunnyBg src={p.videoSrc} thumb={p.thumbnailUrl} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

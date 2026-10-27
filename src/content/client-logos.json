@@ -1,0 +1,44 @@
+[
+  {
+    "id": "brandx",
+    "name": "BrandX",
+    "order": 1,
+    "logoImage": { "src": "/images/cms/client-logos/brandx.png", "alt": "" }
+  },
+  {
+    "id": "the-standardx",
+    "name": "The StandardX",
+    "order": 2,
+    "logoImage": { "src": "/images/cms/client-logos/the-standardx.png", "alt": "" }
+  },
+  {
+    "id": "rubens-deli",
+    "name": "Ruben's Deli",
+    "order": 3,
+    "logoImage": { "src": "/images/cms/client-logos/rubens-deli.png", "alt": "" }
+  },
+  {
+    "id": "tony-bianco",
+    "name": "Tony Bianco",
+    "order": 4,
+    "logoImage": { "src": "/images/cms/client-logos/tony-bianco.png", "alt": "Tony Bianco logo" }
+  },
+  {
+    "id": "abrand-jeans",
+    "name": "Abrand Jeans",
+    "order": 5,
+    "logoImage": { "src": "/images/cms/client-logos/abrand-jeans.png", "alt": "Abrand Jeans logo" }
+  },
+  {
+    "id": "suze",
+    "name": "Suze",
+    "order": 6,
+    "logoImage": { "src": "/images/cms/client-logos/suze.png", "alt": "Suze logo" }
+  },
+  {
+    "id": "gracies",
+    "name": "Gracie's",
+    "order": 7,
+    "logoImage": { "src": "/images/cms/client-logos/gracies.png", "alt": "Gracie's logo" }
+  }
+]

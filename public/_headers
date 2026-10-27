@@ -1,0 +1,17 @@
+# Cloudflare static asset headers
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+
+/images/*
+  Cache-Control: public, max-age=2592000
+
+/js/vendor/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/css/vendor/*
+  Cache-Control: public, max-age=31536000, immutable

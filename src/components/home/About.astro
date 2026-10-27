@@ -1,0 +1,60 @@
+---
+import { bindClass, getClientLogos } from '../../lib/cms';
+
+const logos = await getClientLogos();
+---
+<section id="about" class="section cc-invert">
+  <div class="full-bg-img cc-texture">
+    <img src="/images/grain-texture.png" loading="lazy" sizes="(max-width: 1800px) 100vw, 1800px" srcset="/images/grain-texture-p-500.png 500w, /images/grain-texture-p-800.png 800w, /images/grain-texture-p-1080.png 1080w, /images/grain-texture-p-1600.png 1600w, /images/grain-texture.png 1800w" alt="" class="u-img-cover"/>
+  </div>
+  <div class="w-layout-blockcontainer container w-container">
+    <div class="border-section-top cc-light"></div>
+    <div class="row">
+      <div class="col col-sm-12">
+        <div data-wf--spacer--settings-size="main" class="spacer-component u-d-none u-sm-d-block"></div>
+        <h2 class="eyebrow u-mb-0">About Rae<br/>
+        </h2>
+        <h2 class="eyebrow cc-faded">Social Agency<br/>
+        </h2>
+        <div data-img-reveal="" class="side_img">
+          <img src="/images/img-5716.webp" loading="lazy" sizes="(max-width: 767px) 100vw, (max-width: 991px) 728px, 940px" srcset="/images/img-5716-p-500.webp 500w, /images/img-5716-p-800.webp 800w, /images/img-5716-p-1080.webp 1080w, /images/img-5716-p-1600.webp 1600w, /images/img-5716-p-2000.webp 2000w, /images/img-5716-p-2600.webp 2600w, /images/img-5716-p-3200.webp 3200w, /images/img-5716.webp 4284w" alt="" class="u-img-cover"/>
+        </div>
+      </div>
+      <div class="col col-lg-6 col-sm-12">
+        <div class="about_wrap">
+          <h2 data-reveal="lines" class="h1">We believe in challenging the statUS quo.</h2>
+          <p class="h5">Rae Social Agency is for brands ready to be seen, remembered &amp; chosen but need the right direction &amp; creative team.<br/>
+            <br/>We identify what makes your business matter to your customers and bring it to life through attention grabbing social-led content.</p>
+          <div data-wf--marquee--settings-orientation="horizontal" data-marquee-reverse="false" data-marquee-pause-on-hover="false" data-marquee-fade-edges="true" class="marquee-component">
+            <div style="--marquee-duration: 25s;" class="marquee-wrapper">
+              <div style="--marquee-gap: 80px;" class="marquee-content">
+                <div class="marquee-group">
+                  <div class="logo-marquee_collection w-dyn-list">
+                    <div role="list" class="logo-marquee_list w-dyn-items">
+                      {logos.map((logo) => (
+                        <div role="listitem" class="logo-marquee_item w-dyn-item">
+                          <div class="client-logo_wrap"><img src={logo.logoImage?.src ?? ''} loading="lazy" alt={logo.logoImage?.alt ?? ''} class={bindClass('', logo.logoImage?.src)}/></div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div class="marquee-group">
+                  <div class="logo-marquee_collection w-dyn-list">
+                    <div role="list" class="logo-marquee_list w-dyn-items">
+                      {logos.map((logo) => (
+                        <div role="listitem" class="logo-marquee_item w-dyn-item">
+                          <div class="client-logo_wrap"><img src={logo.logoImage?.src ?? ''} loading="lazy" alt={logo.logoImage?.alt ?? ''} class={bindClass('', logo.logoImage?.src)}/></div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,158 @@
+<div data-animation="default" class="nav w-nav" data-easing2="ease" data-easing="ease" data-wf--nav--settings-theme="base" data-collapse="none" role="banner" data-duration="0" data-nav-blend-duration="100" data-doc-height="1">
+  <div class="u-d-none w-embed">
+    <style is:inline>
+  /* Over the hero */
+  .nav {
+    mix-blend-mode: normal;
+  }
+
+  /* Past the hero */
+  .nav[data-nav-past-hero] {
+    mix-blend-mode: difference;
+  }
+
+  /* Opacity control */
+  .nav-menu_container:has(a:hover, a:focus-visible) a:not(:hover):not(:focus-visible) {
+    opacity: 0.6;
+  }
+  /* Mobile menu button animation */
+  .nav-menu_btn.w--open .cc-top {
+    transform: translateY(9px) rotate(45deg);
+  }
+  .nav-menu_btn.w--open .cc-middle {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  .nav-menu_btn.w--open .cc-bottom {
+    transform: translateY(-9px) rotate(-45deg);
+  }
+
+  /* When a nav dropdown is open.. */
+  /* ..Rotate narrow */
+  .nav-link.w--open .nav-dropdown_arrow {
+    transform: rotate(180deg);
+  }
+  /* ..Show overlay on desktop */
+  @media (min-width: 992px) {
+    .nav-menu:has(.nav-link.w--open) .nav-dropdown_overlay {
+      display: block;
+    }
+  }
+
+  /* Lock body scroll when mobile nav is open */
+  body:has(.w-nav-button.w--open) {
+    overflow: hidden;
+  }
+
+  /* Nav CTA wrapper mode when nav menu hidden */
+  @media (min-width: 992px) {
+    .nav-menu + .nav-cta-wrapper {
+      margin-left: 0;
+    }
+  }
+</style>
+  </div>
+  <div class="u-d-none w-embed w-script">
+    <script is:inline>
+  //---- Skip to <main> backup if #main anchor link isn't set ----
+  document.addEventListener('DOMContentLoaded', () => {
+    const skipLinkEle = document.getElementById('skip-link');
+    if (!skipLinkEle) return;
+
+    skipLinkEle.addEventListener('click', handleSkipLink);
+    skipLinkEle.addEventListener('keydown', handleSkipLink);
+  });
+
+  // Nav blend mode
+  function initNavHeroBlend() {
+  const nav = document.querySelector('.nav');
+  const hero = document.querySelector('[data-section-hero]');
+  if (!nav || !hero) return;                       // no hero on this page: nav keeps its default look
+
+  const DURATION = parseFloat(nav.getAttribute('data-nav-blend-duration')) || 400;   // ms, whole fade out + in
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let past = null, ticking = false, anim = null;
+
+  // fade out -> switch blend mode while invisible -> fade back in
+  function switchTo(state, instant) {
+    if (anim) { anim.cancel(); anim = null; }
+    if (instant || reduce || !nav.animate) { nav.toggleAttribute('data-nav-past-hero', state); return; }
+    const half = DURATION / 2;
+    const from = getComputedStyle(nav).opacity;    // starts from wherever it is (handles fast back-and-forth)
+    const out = nav.animate([{ opacity: from }, { opacity: 0 }], { duration: half, easing: 'ease-in', fill: 'forwards' });
+    anim = out;
+    out.onfinish = () => {
+      if (anim !== out) return;
+      nav.toggleAttribute('data-nav-past-hero', state);
+      const back = nav.animate([{ opacity: 0 }, { opacity: 1 }], { duration: half, easing: 'ease-out' });
+      anim = back;
+      out.cancel();
+      back.onfinish = () => { if (anim === back) anim = null; };
+    };
+  }
+
+  function update() {
+    ticking = false;
+    // "past" = the hero's bottom edge has moved above the bottom of the nav
+    const isPast = hero.getBoundingClientRect().bottom <= nav.getBoundingClientRect().bottom;
+    if (isPast === past) return;
+    const first = past === null;                   // correct state on page load, no fade
+    past = isPast;
+    switchTo(isPast, first);
+  }
+  const request = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+
+  update();
+  window.addEventListener('scroll', request, { passive: true });
+  window.addEventListener('resize', request);
+}
+
+// Initialize Nav Hero Blend
+document.addEventListener('DOMContentLoaded', () => {
+  initNavHeroBlend();
+});
+</script>
+  </div>
+  <a id="skip-link" href="#main" class="nav-skip-link">Skip to Main Content</a>
+  <div class="container cc-nav">
+    <div class="nav_wrap">
+      <a aria-label="Rae Social Agency, home" href="/" aria-current="page" class="nav-logo_link w-nav-brand w--current">
+        <svg width="100%" height="100%" viewBox="0 0 180 17" fill="none" xmlns="http://www.w3.org/2000/svg" class="u-w-100">
+          <path d="M4.74388 12.236C4.74388 13.1737 4.92683 14.0023 5.25132 14.8828L1.83141 14.8895C2.15458 14.0289 2.3215 13.1897 2.3215 12.2613V4.73502C2.3215 3.80789 2.15591 2.96735 1.83008 2.10816L6.2355 2.12548C8.24792 2.13347 10.4139 3.15251 10.7317 5.17994C11.0469 7.18605 9.90646 8.72194 7.74982 9.15619L9.11057 10.8399L12.3035 14.6497C12.6867 14.0636 12.9925 13.5787 13.2716 12.9753L18.334 2.01758L19.4945 2.02957L24.3726 12.7928C24.7212 13.5627 25.1098 14.2061 25.6039 14.8868H22.1612C22.2334 13.7412 21.6405 12.6089 21.1651 11.458L16.5887 11.4554C16.0973 12.541 15.5511 13.6693 15.6366 14.8868L9.90379 14.8895C9.01443 14.2314 8.23456 13.5054 7.53215 12.6436L4.74388 9.23079V12.236ZM6.84443 7.59899C7.7151 7.29528 8.23056 6.50669 8.14776 5.65282C8.07298 4.88421 7.48942 4.17022 6.66416 3.9824C6.05255 3.84386 5.44762 3.85585 4.76524 3.86517L4.76257 7.79214C5.44762 7.82012 6.15671 7.8401 6.84443 7.59899ZM20.4439 9.71966L18.8829 5.89393L17.3031 9.72366L20.4439 9.71966Z" fill="currentColor"></path>
+          <path d="M153.556 14.884L152.062 14.88L145.135 6.1509L145.093 12.2651C145.086 13.1856 145.285 14.0288 145.6 14.888H142.216C142.529 14.0794 142.674 13.2975 142.705 12.421L142.688 3.82909C142.688 3.61995 142.66 3.27894 142.503 2.89397C142.352 2.52232 142.145 2.2639 142.004 2.1147C142.904 2.11337 143.804 2.11071 144.704 2.10938L151.118 10.2058L151.154 4.73091C151.159 3.8131 150.988 2.96723 150.673 2.11204H154.026C153.734 2.95258 153.56 3.79712 153.56 4.73757V14.8853L153.556 14.884Z" fill="currentColor"></path>
+          <path d="M62.1908 8.4991C62.1908 12.197 59.1742 15.1955 55.4538 15.1955C51.7334 15.1955 48.7168 12.197 48.7168 8.4991C48.7168 4.80125 51.7334 1.80273 55.4538 1.80273C59.1742 1.80273 62.1908 4.80125 62.1908 8.4991ZM59.2196 10.5145C59.8699 8.86276 59.6349 7.01516 58.6293 5.59516C57.7934 4.41627 56.5154 3.82616 55.0785 3.92607C53.7846 4.01532 52.5734 4.7746 51.9097 6.01877C50.9682 7.78111 51.1872 10.003 52.4452 11.5655C53.3813 12.7285 54.746 13.2506 56.243 13.0015C57.5263 12.7884 58.6854 11.8746 59.2209 10.5145H59.2196Z" fill="currentColor"></path>
+          <path d="M128.284 9.51239L125.736 9.83475L126.204 7.65947L130.504 7.6568V13.8057C128.522 15.0299 126.086 15.4242 123.835 14.8434C121.061 14.128 119.265 11.8142 119.102 9.01286C118.947 6.34204 120.26 3.903 122.673 2.67483C124.963 1.50926 127.571 1.67177 129.935 2.75475L129.84 5.73861C129.108 5.1112 128.407 4.59169 127.542 4.24135C125.366 3.4168 123.048 4.39721 122.136 6.53653C121.627 7.73007 121.633 9.09811 122.141 10.3063C123.16 12.724 125.947 13.5513 128.284 12.4043V9.51239Z" fill="currentColor"></path>
+          <path d="M88.5463 11.457L83.9726 11.4544L83.1474 13.5551C82.9845 13.9693 83.0031 14.4236 83.0165 14.8871H79.5352C80.1334 14.024 80.5701 13.1648 81.0094 12.211L85.7033 2.03525L86.8757 2.03125L91.6804 12.6386C92.053 13.4605 92.4496 14.1625 92.9878 14.8871H89.5345C89.5452 14.4409 89.5438 13.992 89.3849 13.5897L88.545 11.4584L88.5463 11.457ZM87.8199 9.71069L86.2655 5.89028L84.6831 9.72401L87.8199 9.71069Z" fill="currentColor"></path>
+          <path d="M115.193 11.4568L110.627 11.4541C110.118 12.5118 109.589 13.6667 109.657 14.8869H106.189L107.385 12.7915L112.355 2.03099L113.514 2.01367L118.41 12.8155C118.755 13.5775 119.147 14.2142 119.634 14.8869H116.185C116.193 14.4713 116.205 14.045 116.057 13.6667L115.194 11.4555L115.193 11.4568ZM114.465 9.70377L112.912 5.90734L111.325 9.72641L114.465 9.70377Z" fill="currentColor"></path>
+          <path d="M71.4276 12.8191C72.4451 12.6099 73.2544 12.137 74.0703 11.6002L74.0743 14.335C72.2969 15.0743 70.3312 15.326 68.4577 14.8971C65.4464 14.2084 63.5475 11.7161 63.5141 8.69229C63.4834 5.80701 65.1232 3.24542 67.9235 2.30097C69.9239 1.63626 72.0912 1.7748 74.0316 2.66596L74.0289 5.87361C73.2877 5.14629 72.5212 4.56418 71.5598 4.2538C69.57 3.61973 67.5242 4.44695 66.5694 6.29987C65.9285 7.68391 65.9565 9.31037 66.691 10.6544C67.6297 12.3715 69.4686 13.2227 71.4289 12.8191H71.4276Z" fill="currentColor"></path>
+          <path d="M31.9512 9.18272C31.608 9.17339 30.1725 9.17339 29.1856 9.19337C29.1856 10.4602 29.1856 11.727 29.1843 12.9938C32.1689 12.8659 35.1414 12.7713 35.3497 12.7434C35.3724 12.7407 35.4619 12.726 35.5207 12.7767C35.5968 12.8446 35.5741 12.9871 35.5594 13.0644C35.51 13.3255 35.335 14.0048 35.088 14.8907C32.508 14.8907 29.0774 14.8907 26.4975 14.8907C26.5255 14.4817 26.5576 14.0661 26.595 13.6425C26.6337 13.2003 26.6778 12.7673 26.7245 12.3411C26.7245 9.72621 26.7245 7.11267 26.7245 4.49779C26.6844 4.15945 26.619 3.61596 26.579 3.27761C26.5416 2.96324 26.4788 2.42508 26.4414 2.10938C29.1683 2.10938 32.7444 2.11204 35.4713 2.11204C35.4005 2.61557 35.319 3.03783 35.2482 3.36419C35.1761 3.69189 35.0987 3.99693 34.8717 4.08751C34.7809 4.12348 34.6981 4.11282 34.6714 4.11016C34.3348 4.07153 31.6961 4.00359 29.1856 3.92633C29.1856 5.0919 29.1856 6.25614 29.1856 7.42171L33.6191 7.42437C33.6124 7.83199 33.5643 8.97358 33.0929 9.12544C33.0355 9.14409 32.926 9.15075 32.7057 9.16673C32.3051 9.19337 32.0046 9.18538 31.9512 9.18405V9.18272Z" fill="currentColor"></path>
+          <path d="M47.1297 13.5452C45.6715 15.6353 42.0553 15.3875 39.8359 14.2526L39.5781 11.1914C40.6037 12.2012 41.7401 12.8232 43.1249 12.9911C44.1411 13.115 45.1707 12.6381 45.2922 11.7389C45.3683 11.1781 45.2148 10.644 44.7527 10.3296L43.4748 9.45974L41.226 8.03842C40.7439 7.7347 40.2885 7.28712 40.0348 6.76894C39.3685 5.40489 39.7998 3.76777 40.9856 2.84997C42.6775 1.54186 45.1987 1.69239 47.1845 2.54892L47.1391 5.30632C46.4233 4.67225 45.7249 4.21401 44.8462 3.96492C43.7085 3.64255 42.4559 3.95026 42.3076 5.01326C42.2249 5.60471 42.4906 6.04562 42.9967 6.37065L45.7609 8.14099C46.4406 8.57658 47.111 9.10408 47.4742 9.84605C48.0498 11.0249 47.8735 12.4769 47.1297 13.5439V13.5452Z" fill="currentColor"></path>
+          <path d="M102.242 12.405C102.052 13.2322 101.862 14.0595 101.673 14.888H93.6738C93.9983 14.0581 94.1425 13.2416 94.1599 12.3411V4.57639C94.1319 3.70254 93.985 2.91528 93.6752 2.10938H97.0977C96.7332 3.04316 96.6037 3.96496 96.6037 4.97201V12.9925C98.4852 12.7966 100.364 12.6008 102.243 12.405H102.242Z" fill="currentColor"></path>
+          <path d="M78.8267 14.884L75.4375 14.888C75.7513 14.0768 75.9116 13.2962 75.9409 12.421V4.57505C75.9116 3.69988 75.7527 2.91795 75.4388 2.10938H78.836C78.5249 2.97389 78.358 3.80778 78.3486 4.73357V12.2625C78.358 13.1683 78.5129 13.9529 78.828 14.884H78.8267Z" fill="currentColor"></path>
+          <path d="M158.539 11.042C160.192 13.477 163.27 13.3824 165.672 11.6014L165.682 14.3335C163.894 15.0755 161.933 15.3246 160.056 14.8943C157.051 14.207 155.152 11.7107 155.121 8.69218C155.093 5.81089 156.728 3.24664 159.523 2.30352C161.526 1.63615 163.692 1.77336 165.639 2.66585L165.635 5.87616C164.882 5.13952 164.13 4.5574 163.154 4.25102C161.228 3.6436 159.188 4.40288 158.237 6.20785C157.434 7.72908 157.575 9.6233 158.537 11.0433L158.539 11.042Z" fill="currentColor"></path>
+          <path d="M176.084 4.84813L173.431 9.10279L173.409 12.2052C173.402 13.135 173.572 14.0155 173.905 14.8854H170.478C170.801 14.0581 170.94 13.2336 170.968 12.3477L170.961 9.12277L168.176 4.65231L166.242 2.11071H169.89C169.89 2.53697 169.991 2.95391 170.19 3.3602C170.772 4.54308 171.415 5.61674 172.194 6.77032L174.27 3.24431C174.431 2.86733 174.534 2.52898 174.571 2.10938H178.167L176.08 4.84813H176.084Z" fill="currentColor"></path>
+          <path d="M137.502 9.18272C137.159 9.17339 135.723 9.17339 134.736 9.19337C134.736 10.4602 134.736 11.727 134.735 12.9938C137.72 12.8659 140.692 12.7713 140.901 12.7434C140.923 12.7407 141.013 12.726 141.071 12.7767C141.148 12.8446 141.125 12.9871 141.11 13.0644C141.061 13.3255 140.886 14.0048 140.639 14.8907C138.059 14.8907 134.628 14.8907 132.048 14.8907C132.076 14.4817 132.108 14.0661 132.146 13.6425C132.184 13.2003 132.229 12.7673 132.275 12.3411C132.275 9.72621 132.275 7.11267 132.275 4.49779C132.235 4.15945 132.17 3.61596 132.13 3.27761C132.092 2.96324 132.03 2.42508 131.992 2.10938C134.719 2.10938 138.295 2.11204 141.022 2.11204C140.951 2.61557 140.87 3.03783 140.799 3.36419C140.727 3.69189 140.649 3.99693 140.422 4.08751C140.332 4.12348 140.249 4.11282 140.222 4.11016C139.886 4.07153 137.247 4.00359 134.736 3.92633C134.736 5.0919 134.736 6.25614 134.736 7.42171L139.17 7.42437C139.163 7.83199 139.115 8.97358 138.644 9.12544C138.586 9.14409 138.477 9.15075 138.256 9.16673C137.856 9.19337 137.555 9.18538 137.502 9.18405V9.18272Z" fill="currentColor"></path>
+        </svg>
+      </a>
+      <div class="nav-menu_btn w-nav-button">
+        <div class="nav-menu_btn-bar cc-top"></div>
+        <div class="nav-menu_btn-bar cc-middle"></div>
+        <div class="nav-menu_btn-bar cc-bottom"></div>
+      </div>
+      <nav role="navigation" class="nav-menu u-md-d-none w-nav-menu">
+        <div class="nav-dropdown_overlay"></div>
+        <div class="nav-menu_container">
+          <a data-hover="" href="https://www.instagram.com/raesocialagency/" target="_blank" class="nav-link_wrap w-inline-block">
+            <div data-underline-link="" class="nav-link">Instagram ↗</div>
+          </a>
+          <link rel="noopener noreferrer" href="https://www.instagram.com/raesocialagency/"/>
+        </div>
+      </nav>
+      <div class="nav-cta-wrapper">
+        <a data-hover="" href="mailto:hello@raesocialagency.com" class="nav-link_wrap w-inline-block">
+          <p data-underline-link="alt" class="nav-link">Contact</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

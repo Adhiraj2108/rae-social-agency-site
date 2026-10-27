@@ -1,0 +1,46 @@
+[
+  {
+    "id": "abrand-jeans",
+    "name": "Abrand Jeans",
+    "order": 1,
+    "side": "Left",
+    "thumbnailSrc": "https://vz-a9787108-ab4.b-cdn.net/72fa6cd1-ec1f-4356-9bc2-06b3f9c2bc6a/thumbnail_283e038f.jpg",
+    "videoSrc": "https://vz-a9787108-ab4.b-cdn.net/72fa6cd1-ec1f-4356-9bc2-06b3f9c2bc6a/playlist.m3u8",
+    "instagramHandle": "abrandjeans",
+    "instagramLink": "https://www.instagram.com/reels/DdpyCLFhaA0/",
+    "servicesProvided": "Post-production"
+  },
+  {
+    "id": "tony-blanco",
+    "name": "Tony Bianco",
+    "order": 2,
+    "side": "Left",
+    "thumbnailSrc": "https://vz-a9787108-ab4.b-cdn.net/1832d34e-922e-45a6-b3bd-4783565d96ce/thumbnail.jpg",
+    "videoSrc": "https://vz-a9787108-ab4.b-cdn.net/1832d34e-922e-45a6-b3bd-4783565d96ce/playlist.m3u8",
+    "instagramHandle": "tonybianco",
+    "instagramLink": "https://www.instagram.com/reel/Daj7HkCCYoR/?utm_source=ig_web_copy_link&mdxt=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==",
+    "servicesProvided": "Post-production"
+  },
+  {
+    "id": "gracies-wine-room",
+    "name": "Gracie's Wine Room",
+    "order": 3,
+    "side": "Right",
+    "thumbnailSrc": "https://vz-a9787108-ab4.b-cdn.net/9f602256-6a59-470d-baec-c61d3211ac4c/thumbnail.jpg",
+    "videoSrc": "https://vz-a9787108-ab4.b-cdn.net/9f602256-6a59-470d-baec-c61d3211ac4c/playlist.m3u8",
+    "instagramHandle": "gracieswineroom",
+    "instagramLink": "https://www.instagram.com/reel/Dcuk0jkzhGo/?utm_source=ig_web_copy_link&dlrf=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==",
+    "servicesProvided": "Creative Direction & Production"
+  },
+  {
+    "id": "suze",
+    "name": "Suze",
+    "order": 4,
+    "side": "Right",
+    "thumbnailSrc": "https://vz-a9787108-ab4.b-cdn.net/20f0c796-2c05-40c0-b508-4bdb08c591b7/thumbnail.jpg",
+    "videoSrc": "https://vz-a9787108-ab4.b-cdn.net/20f0c796-2c05-40c0-b508-4bdb08c591b7/playlist.m3u8",
+    "instagramHandle": "suze_fitzroy",
+    "instagramLink": "https://www.instagram.com/reel/DaSG6C_s-Cf/?utm_source=ig_web_copy_link&mdxt=NTc4MTIwNjQ2YQ==",
+    "servicesProvided": "Creative Direction & Production"
+  }
+]

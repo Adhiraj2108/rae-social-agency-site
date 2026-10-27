@@ -1,0 +1,29 @@
+[
+  {
+    "id": "gracies-wine-room",
+    "name": "Gracie’s Wine Room",
+    "order": 1,
+    "logo": { "src": "/images/cms/testimonials/gracies-wine-room.png", "alt": "" },
+    "testimonial": "“The engagement was insane! We couldn’t stop raving about how easy Rae Social Agency was to work with. They absolutely killed it, and we’d love to work with RSA again.”",
+    "clientName": "Hanaka",
+    "designation": "Manager, Gracie’s Wine Room"
+  },
+  {
+    "id": "abrand-jeans",
+    "name": "Abrand Jeans",
+    "order": 2,
+    "logo": { "src": "/images/cms/testimonials/abrand-jeans.png", "alt": "" },
+    "testimonial": "\"We reached out to Rae Social Agency at the last minute to help edit some raw video content for our socials and campaign window, using footage we’d shot ourselves and we were genuinely blown away by how amazing it turned out! She completely elevated the footage and brought our vision to life. Super professional, efficient and an absolute pleasure to work with. I couldn’t recommend the team more!\"",
+    "clientName": "Grace",
+    "designation": "Marketing Manager, Abrand Jeans"
+  },
+  {
+    "id": "suze",
+    "name": "Suze",
+    "order": 3,
+    "logo": { "src": "/images/cms/testimonials/suze.png", "alt": "" },
+    "testimonial": "Testimonial from Steve at Suze to be added.",
+    "clientName": "Steve",
+    "designation": "Founder, Suze"
+  }
+]

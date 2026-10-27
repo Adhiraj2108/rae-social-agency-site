@@ -1,0 +1,104 @@
+---
+// Renders every design token straight from public/css/webflow.css, so this page
+// can never drift from what the site actually uses. Not linked, not indexed.
+import css from '../../public/css/webflow.css?raw';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CustomCode from '../components/global/CustomCode.astro';
+
+const root = css.match(/:root\s*\{([\s\S]*?)\}/)?.[1] ?? '';
+const tokens = [...root.matchAll(/(--[\w-]+)\s*:\s*([^;]+);/g)].map(([, name, value]) => ({ name, value: value.trim() }));
+const group = (re: RegExp) => tokens.filter((t) => re.test(t.name));
+
+const colors = group(/^--(_color|primary)/);
+const layout = group(/^--_layout/);
+const components = group(/^--_components/);
+const fonts = group(/^--_typography---fonts/);
+const breakpoints = [...new Set([...css.matchAll(/@media[^{]*\((max|min)-width:\s*(\d+)px\)/g)].map((m) => `${m[1]}-width: ${m[2]}px`))];
+
+const typeStyles = [
+  { cls: 'h1', label: 'h1' },
+  { cls: 'h2', label: 'h2' },
+  { cls: 'h3', label: 'h3' },
+  { cls: 'h4', label: 'h4' },
+  { cls: 'h5', label: 'h5' },
+  { cls: 'h6', label: 'h6' },
+  { cls: 'paragraph-xl', label: '.paragraph-xl' },
+  { cls: 'paragraph-lg', label: '.paragraph-lg' },
+  { cls: '', label: 'body' },
+  { cls: 'paragraph-sm', label: '.paragraph-sm' },
+  { cls: 'eyebrow', label: '.eyebrow' },
+];
+---
+<BaseLayout title="Style guide | Rae Social Agency" description="Design tokens for the Rae Social Agency site." wfPage="6abe0e29763529229eb86154" noindex>
+  <div class="page-wrapper">
+    <CustomCode />
+    <main class="sg">
+      <div class="w-layout-blockcontainer container w-container">
+        <p class="eyebrow">Rae Social Agency</p>
+        <h1 class="h2">Style guide</h1>
+        <p class="paragraph-lg">Every value below is read from <code>public/css/webflow.css</code> at build time.</p>
+
+        <section class="sg-section">
+          <h2 class="h4">Colour</h2>
+          <div class="sg-swatches">
+            {colors.map((t) => (
+              <div class="sg-swatch">
+                <div class="sg-chip" style={`background: var(${t.name})`}></div>
+                <code>{t.name}</code>
+                <code class="sg-muted">{t.value}</code>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section class="sg-section">
+          <h2 class="h4">Typography</h2>
+          {fonts.map((t) => <p><code>{t.name}</code>: <span style={`font-family: var(${t.name})`}>{t.value}</span></p>)}
+          {typeStyles.map((t) => (
+            <div class="sg-type">
+              <code class="sg-muted">{t.label}</code>
+              <p class={t.cls || undefined}>Content focused social media</p>
+            </div>
+          ))}
+        </section>
+
+        <section class="sg-section">
+          <h2 class="h4">Buttons &amp; links</h2>
+          <div class="sg-row">
+            <div data-wf--button--button-variant="primary" class="button"><div aria-hidden="true" class="btn-text">Primary button</div><a href="#" class="u-link-cover w-inline-block"><div class="u-sr-only">Primary button</div></a></div>
+            <a data-underline-link="alt" href="#" class="underline-link is--alt">Underline link</a>
+          </div>
+        </section>
+
+        <section class="sg-section">
+          <h2 class="h4">Breakpoints</h2>
+          <ul>{breakpoints.map((b) => <li><code>{b}</code></li>)}</ul>
+        </section>
+
+        <section class="sg-section">
+          <h2 class="h4">Layout &amp; spacing</h2>
+          <table class="sg-table">{layout.map((t) => <tr><td><code>{t.name}</code></td><td><code class="sg-muted">{t.value}</code></td></tr>)}</table>
+        </section>
+
+        <section class="sg-section">
+          <h2 class="h4">Components</h2>
+          <table class="sg-table">{components.map((t) => <tr><td><code>{t.name}</code></td><td><code class="sg-muted">{t.value}</code></td></tr>)}</table>
+        </section>
+      </div>
+    </main>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  .sg { padding: 6rem 0; }
+  .sg-section { border-top: 1px solid var(--primary--border); margin-top: 4rem; padding-top: 2rem; }
+  .sg-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); gap: 1.5rem; }
+  .sg-swatch { display: grid; gap: .25rem; font-size: .8rem; }
+  .sg-chip { height: 4rem; border-radius: .5rem; border: 1px solid var(--primary--border); }
+  .sg-muted { opacity: .6; word-break: break-all; }
+  .sg-type { display: grid; grid-template-columns: 8rem 1fr; gap: 1rem; align-items: baseline; }
+  .sg-row { display: flex; gap: 2rem; align-items: center; flex-wrap: wrap; }
+  .sg-table { font-size: .8rem; border-collapse: collapse; width: 100%; }
+  .sg-table td { padding: .35rem .5rem; border-bottom: 1px solid var(--primary--border); vertical-align: top; }
+  @media (max-width: 767px) { .sg-type { grid-template-columns: 1fr; } }
+</style>

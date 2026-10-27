@@ -1,0 +1,100 @@
+---
+import BunnyBg from '../BunnyBg.astro';
+import { bindClass, getProjects, moreVideoSlots } from '../../lib/cms';
+
+const projects = await getProjects();
+---
+<div data-drawer-root="" data-drawer-update-title="" class="project_drawer">
+  <div class="project-drawer-css w-embed">
+    <style is:inline>
+  [data-drawer-root],
+  [data-drawer-overlay] {
+    visibility: hidden;
+  }
+
+  /* Remove scroll bar */
+  .drawer_scroll {
+    /* Firefox */
+    scrollbar-width: none;
+
+    /* Safari and Chrome */
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+</style>
+  </div>
+  <div class="drawer_padding">
+    <div aria-label="close project details" data-drawer-close="" data-hover="" class="btn-drawer-close">
+      <p data-underline-link="alt" class="nav-link">Close</p>
+    </div>
+    <div data-drawer-scroll="" class="drawer_scroll">
+      <div class="drawer_content">
+        <div class="w-dyn-list">
+          <div role="list" class="w-dyn-items">
+            {projects.map((p) => (
+              <div role="listitem" class="w-dyn-item">
+                <div data-drawer-panel-title={p.name} data-drawer-panel={p.id} class="project_pan">
+                  <div class="project-pan_header">
+                    <div class="project-pan_title">
+                      <h2 class="eyebrow">Project Details<br/></h2>
+                      <h2 class={bindClass('h3', p.clientName)}>{p.clientName}</h2>
+                      <p class="h5">{p.name}</p>
+                    </div>
+                    <div class="u-border"></div>
+                    <div class="project-brief_wrap">
+                      <div class="h6">Client Brief</div>
+                      <p class={bindClass('', p.brief)}>{p.brief}</p>
+                    </div>
+                    <div class="project-brief_wrap">
+                      <h3 class="h6">Our Approach</h3>
+                      <p class={bindClass('', p.approach)}>{p.approach}</p>
+                    </div>
+                    <div class="project-brief_wrap">
+                      <div class="h6">Results</div>
+                      <div class={bindClass('project-results_text w-richtext', p.results)} set:html={p.results ?? ''} />
+                    </div>
+                    <ul role="list" class="u-mb-0 w-list-unstyled">
+                      <li>
+                        <div data-hover="" class="project-pan_meta">
+                          <div class="u-border"></div>
+                          <div class="row">
+                            <div class="col col-lg-5"><div class="eyebrow u-mb-0">Services</div></div>
+                            <div class="col"><div class={bindClass('h6 cc-regular', p.servicesProvided)}>{p.servicesProvided}</div></div>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div data-hover="" class="project-pan_meta">
+                          <div class="u-border"></div>
+                          <div class="row">
+                            <div class="col col-lg-5"><div class="eyebrow u-mb-0">Credits</div></div>
+                            <div class="col"><div class={bindClass('project-credits_text w-richtext', p.credits)} set:html={p.credits ?? ''} /></div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                    <div class="project-more_wrap">
+                      <div class="project-more_title">
+                        <div class="h6">More from</div>
+                        <div class={bindClass('h6', p.clientName)}>{p.clientName}</div>
+                      </div>
+                      <div class="project-more_scroll">
+                        {moreVideoSlots(p).map((v) => (
+                          <div class="project-more_slide">
+                            <div class={bindClass('project-more_flag', v.flag)}>{v.flag}</div>
+                            <BunnyBg src={v.src} thumb={v.thumbnailSrc} />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

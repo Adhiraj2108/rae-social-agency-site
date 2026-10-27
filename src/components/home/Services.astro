@@ -1,0 +1,48 @@
+---
+import { bindClass, getServices } from '../../lib/cms';
+
+const services = await getServices();
+---
+<section id="services" class="section">
+  <div class="w-layout-blockcontainer container w-container">
+    <div class="border-section-top"></div>
+    <div class="row">
+      <div class="col col-sm-12">
+        <div data-wf--spacer--settings-size="main" class="spacer-component u-d-none u-sm-d-block"></div>
+        <h2 class="eyebrow">our services</h2>
+        <div data-img-reveal="" class="side_img cc-services">
+          <img src="/images/services-image.png" loading="lazy" alt="Person sitting upside down in a chair reading in a photo studio" class="u-img-cover"/>
+        </div>
+      </div>
+      <div class="col col-lg-6 col-md-7 col-sm-12">
+        <div class="service_wrap">
+          <p data-reveal="lines" class="h3">Good work starts with a good conversation. We take the time to understand your brand, your audience and where you want to go.</p>
+          <div data-accordion-close-siblings="true" data-accordion-css-init="" class="accordion-css w-dyn-list">
+            <div role="list" class="accordion-css__list w-dyn-items">
+              {services.map((s) => (
+                <div role="listitem" class="w-dyn-item">
+                  <li data-accordion-status="not-active" data-accordion-toggle="" class="accordion-css__item">
+                    <div data-hover="" class="accordion-css__item-top">
+                      <h3 class="accordion-css__item-h3">{s.name}</h3>
+                      <div class="accordion-css__item-icon">
+                        <svg width="100%" height="100%" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="accordion-css__item-icon-svg"><path d="M4.25 0L5.75 6.55673e-08L5.75 10H4.25L4.25 0Z" fill="currentColor" class="accordion-css__icon-vertical"></path><path d="M10 4.25V5.75L0 5.75L1.31135e-07 4.25L10 4.25Z" fill="currentColor"></path></svg>
+                      </div>
+                    </div>
+                    <div data-accordion-toggle="" class="accordion-css__item-bottom">
+                      <div class="accordion-css__item-bottom-wrap">
+                        <div class="accordion-css__item-bottom-content">
+                          <div class={bindClass('accordion-css__item-p w-richtext', s.description)} set:html={s.description ?? ''} />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="u-border"></div>
+                  </li>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

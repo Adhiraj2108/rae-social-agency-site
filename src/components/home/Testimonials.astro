@@ -1,0 +1,29 @@
+---
+import { bindClass, getTestimonials } from '../../lib/cms';
+
+const testimonials = await getTestimonials();
+---
+<section data-tst-fade="350" data-tst="section" data-tst-step="75" class="section cc-testimonial">
+  <div data-tst="stage" class="w-layout-blockcontainer container cc-testimonial w-container">
+    <div class="row row-justify-center">
+      <div class="col col-lg-6 col-md-8 col-sm-11">
+        <div class="w-dyn-list">
+          <div role="list" class="testimonial_list w-dyn-items">
+            {testimonials.map((t) => (
+              <div data-tst="item" role="listitem" class="w-dyn-item">
+                <div class="testimonial_wrap">
+                  <div class="testimonial_logo"><img src={t.logo?.src ?? ''} loading="lazy" data-testimonial-logo="" alt={t.name} class={bindClass('testimonial-logo_image', t.logo?.src)}/></div>
+                  <p data-reveal="lines" data-tst="text" class={bindClass('h3 u-text-center', t.testimonial)}>{t.testimonial}</p>
+                  <div class="testimonial_footer">
+                    <p class={bindClass('paragraph-xl u-mb-0', t.clientName)}>{t.clientName}</p>
+                    <p class={bindClass('eyebrow cc-designation', t.designation)}>{t.designation}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

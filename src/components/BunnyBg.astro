@@ -1,0 +1,23 @@
+---
+// Bunny Stream background player. Markup must stay as-is: bunnybgplayerearly.js,
+// bunnymutetoggle.js and thumbnailfromurl.js read these data attributes.
+interface Props {
+  src?: string | null;
+  thumb?: string | null;
+}
+const { src, thumb } = Astro.props;
+---
+<div data-player-activated="false" data-bunny-background-init="" data-player-src={src ?? ''} data-thumb-src={thumb ?? ''} data-player-status="idle" data-player-lazy="false" data-player-autoplay="true" class="bunny-bg">
+  <video preload="auto" width="1920" height="1080" playsinline="playsinline" muted="" class="bunny-bg__video"></video>
+  <div class="bunny-bg__loading">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="L9" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve" width="100%" fill="none" class="bunny-bg__loading-svg vimeo-player__loading-svg">
+      <path fill="currentColor" d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
+        <animatetransform attributeName="transform" attributeType="XML" type="rotate" dur="1s" from="0 50 50" to="360 50 50" repeatCount="indefinite"></animatetransform>
+      </path>
+    </svg>
+  </div>
+  <a tabindex="0" data-mute-toggle="" aria-label="Unmute video" aria-pressed="false" role="button" href="#" class="bunny-bg__btn cc-mute w-button">
+    <img src="/images/icon-sound-off.svg" loading="lazy" data-mute-icon="muted" alt=""/>
+    <img src="/images/icon-sound-on.svg" loading="lazy" data-mute-icon="unmuted" alt="" class="u-d-none"/>
+  </a>
+</div>

@@ -1,0 +1,68 @@
+---
+import BunnyBg from '../BunnyBg.astro';
+import { bindClass, getCampaigns } from '../../lib/cms';
+
+const campaigns = await getCampaigns();
+const campaignsLeft = campaigns.filter((c) => c.side === 'Left');
+const campaignsRight = campaigns.filter((c) => c.side === 'Right');
+---
+<section class="section">
+  <div class="campaign_wrap">
+    <div data-mode="toggle" data-sticky-scale="" data-range="5" data-opacity=".2" data-scale="1" data-top="0" data-origin="center-top" class="campaign_sticky">
+      <div class="campaign-title_wrap">
+        <h2 data-reveal="lines" class="h3 u-text-center u-mb-0">Content that demands attention</h2>
+        <p class="u-text-center">Campaigns we’ve helped bring to life through content, across fashion, hospitality and lifestyle brands.</p>
+      </div>
+    </div>
+  </div>
+  <div class="w-layout-blockcontainer container w-container">
+    <div class="campaign_main">
+      <div class="row row-justify-center">
+        <div class="col">
+          <div class="w-dyn-list">
+            <div role="list" class="campaign_list w-dyn-items">
+              {campaignsLeft.map((c) => (
+                <div role="listitem" class="w-dyn-item">
+                  <div class="campaign_card">
+                    <div class="campaign-card_wrap">
+                      <div data-reel-in="" class="campaign_media">
+                        <BunnyBg src={c.videoSrc} thumb={c.thumbnailSrc} />
+                      </div>
+                      <div class="campaign_details">
+                        <div class="campaign_handle"><span>@</span><p class={bindClass('', c.instagramHandle)}>{c.instagramHandle}</p></div>
+                        <p class={bindClass('eyebrow', c.servicesProvided)}>{c.servicesProvided}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="align-right">
+            <div class="w-dyn-list">
+              <div role="list" class="campaign_list w-dyn-items">
+                {campaignsRight.map((c) => (
+                  <div role="listitem" class="w-dyn-item">
+                    <div class="campaign_card">
+                      <div class="campaign-card_wrap">
+                        <div data-reel-in="" class="campaign_media">
+                          <BunnyBg src={c.videoSrc} thumb={c.thumbnailSrc} />
+                        </div>
+                        <div class="campaign_details">
+                          <div class="campaign_handle"><span>@</span><p class={bindClass('', c.instagramHandle)}>{c.instagramHandle}</p></div>
+                          <p class={bindClass('eyebrow', c.servicesProvided)}>{c.servicesProvided}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

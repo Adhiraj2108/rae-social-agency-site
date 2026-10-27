@@ -1,0 +1,146 @@
+---
+// Site-wide <head> custom code from Webflow (scrollbars, smooth scroll-to links,
+// the hero loader cover + guard, Lenis). Kept verbatim: the loader guard must run
+// before first paint.
+---
+<!-- ===== Scrollbars hidden site-wide: scrolling still works (mouse wheel, trackpad, touch, keyboard, Lenis), the bar itself never shows. ===== -->
+<style is:inline id="rae-no-scrollbar">
+  html, body, * { scrollbar-width: none; -ms-overflow-style: none; }
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar { display: none; width: 0; height: 0; }
+</style>
+
+<!-- ===== Extras: scroll button, testimonials always centred ===== -->
+<style is:inline id="rae-extras">
+  [data-scroll-to] { cursor: pointer; }
+  /* every testimonial sits in the vertical centre of the section, whatever the longest one is */
+  [data-tst-ready] [data-tst-list] { align-items: center; }
+  [data-tst-ready] [data-tst='item'] { align-self: center; }
+</style>
+<script is:inline id="rae-scroll-to">
+  // [data-scroll-to="#id"] elements (the hero's scroll down) and same-page #links scroll smoothly (Lenis when present)
+  (function () {
+    function go(sel) {
+      var el = null;
+      try { el = document.querySelector(sel); } catch (e) {}
+      if (!el) return false;
+      try { if (lenis && lenis.scrollTo) { lenis.scrollTo(el, { duration: 1.2 }); return true; } } catch (e) {}
+      el.scrollIntoView({ behavior: 'smooth' });
+      return true;
+    }
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest && e.target.closest('[data-scroll-to]');
+      if (b) { if (go(b.getAttribute('data-scroll-to'))) e.preventDefault(); return; }
+      var a = e.target.closest && e.target.closest('a[href*="#"]');
+      if (a && a.pathname.replace(/\/$/, '') === location.pathname.replace(/\/$/, '') && a.hash.length > 1 && !e.defaultPrevented) {
+        if (go(a.hash)) e.preventDefault();
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      var b = e.target.closest && e.target.closest('[data-scroll-to]');
+      if (b && go(b.getAttribute('data-scroll-to'))) e.preventDefault();
+    });
+  })();
+</script>
+
+<!-- ===== Hero loader (Home page): head. Runs before the Lenis scripts so the cover is up on first paint. ===== -->
+<style is:inline id="rae-loader-css">
+  :root { --rae-ld-bg: var(--_color---neutral--light-gray, #f0eee6); }
+  html[data-rae-ld="burgundy"] { --rae-ld-bg: var(--_color---primary--burgundy, #2b181a); }
+  html[data-rae-ld="pale"] { --rae-ld-bg: var(--_color---primary--pale-blue, #d4dae2); }
+
+  html.is-loading { overflow: hidden; overscroll-behavior: none; }
+  html.is-loading body { overflow: hidden; touch-action: none; }
+  /* solid cover from the very first paint, before the loader markup is parsed */
+  html.is-loading::before { content: ""; position: fixed; inset: 0; z-index: 2147483000; background: var(--rae-ld-bg); }
+  /* hero start states while loading (GSAP takes over at the handoff) */
+  html.is-loading .nav { visibility: hidden; }
+  html.is-loading .section.cc-hero .container { visibility: hidden; }
+  html.is-loading .section.cc-hero .full-bg-img img { opacity: 0; }
+
+  /* Loader wrapper = the div with data-loader="wrapper", built and styled on the Home canvas.
+     In the Designer canvas none of this head code runs, so the wrapper is a normal block you can edit.
+     On the live site (html.rae-live) the wrapper is only a plain container, shown while html.is-loading.
+     The image and the two word rows are fixed to the screen and sit directly in the page's stacking context, so each
+     word row (mix-blend-mode: difference) blends with whatever is behind it: the beige cover, the growing image, then the hero.
+     Only the two thin strips are blended, not the whole screen, which keeps the GPU work small.
+     Masking, the image growth and every move are done by GSAP at runtime. */
+  html.rae-live [data-loader="wrapper"] { display: none; position: static; min-height: 0; overflow: visible; background: none; pointer-events: none; }
+  html.is-loading [data-loader="wrapper"],
+  html.rae-live [data-loader="wrapper"].is-handoff { display: block; }  /* is-handoff: the words are still leaving after html.is-loading is gone */
+  html.rae-live [data-loader="image"] { position: fixed; inset: 0; z-index: 2147483001; }
+  html.rae-live [data-loader="words"] { position: static; padding: 0; display: block; mix-blend-mode: normal; }
+  html.rae-live [data-loader="row"] { position: fixed; left: 0; right: 0; padding: 0 0.75rem; z-index: 2147483002; mix-blend-mode: difference; }
+  html.rae-live [data-loader="row"]:first-child { top: 0.75rem; }
+  html.rae-live [data-loader="row"]:last-child { bottom: 0.75rem; }
+  /* wait for the webfont and the image before anything shows (the first screen is blank) */
+  html.rae-live [data-loader="wrapper"]:not(.is-ready) [data-loader="image"],
+  html.rae-live [data-loader="wrapper"]:not(.is-ready) [data-loader="words"] { visibility: hidden; }
+  /* Preview switch: data-loader-preview="hide" on the wrapper removes the loader (and its cover) entirely */
+  html.rae-live [data-loader="wrapper"][data-loader-preview="hide"] { display: none !important; }
+  html.is-loading:has([data-loader-preview="hide"])::before { display: none; }
+  .rae-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+</style>
+<noscript><style is:inline>[data-loader="wrapper"] { display: none !important; }</style></noscript>
+
+<!-- Loader guard + watchdog. ?loader=1 forces it, ?loader=0 skips it. data-loader-preview="show|hide" on the wrapper is handled by the controller (footer). -->
+<script is:inline id="rae-loader-guard">
+  (function () {
+    var THEME = 'beige';           // loader background: 'beige' (project light gray), 'burgundy' or 'pale' (pale blue)
+    var ONCE_PER_SESSION = false;  // false = play on every page load. true = play once per browser session.
+    var PAGES = ['/'];             // paths where the loader plays
+
+    var d = document.documentElement, q = location.search;
+    d.classList.add('rae-live');   // JS is running on the live site (not the Designer canvas): loader wrapper stays hidden unless playing
+
+    var path = location.pathname.replace(/index\.html$/, '');
+    var force = /[?&]loader=1\b/.test(q), skip = /[?&]loader=0\b/.test(q), seen = false;
+    try { seen = ONCE_PER_SESSION && sessionStorage.getItem('raeLoader') === '1'; } catch (e) {}
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.__raeSkip = skip;
+
+    function unlock() {
+      d.classList.remove('is-loading');
+      document.querySelectorAll('[data-rae-inert]').forEach(function (n) { n.inert = false; n.removeAttribute('data-rae-inert'); });
+      var m = document.querySelector('main'); if (m) m.removeAttribute('aria-busy');
+      try { history.scrollRestoration = 'auto'; } catch (e) {}
+      try { if (lenis && lenis.start) lenis.start(); } catch (e) {}
+      window.__raeUnlock = function () {};
+    }
+
+    // Puts the page into the loading state. Called now on a normal load, or later by the controller for data-loader-preview="show".
+    function start() {
+      if (d.classList.contains('is-loading')) return;
+      d.setAttribute('data-rae-ld', THEME === 'pale' || THEME === 'burgundy' ? THEME : 'beige');
+      d.classList.add('is-loading');
+      try { if (ONCE_PER_SESSION) sessionStorage.setItem('raeLoader', '1'); } catch (e) {}
+      try { history.scrollRestoration = 'manual'; window.scrollTo(0, 0); } catch (e) {}
+
+      // Start downloading the hero image now (same srcset/sizes as the hero <img>), long before the body is parsed.
+      try {
+        var b = '/images/hero-image';
+        var l = document.createElement('link');
+        l.rel = 'preload'; l.as = 'image';
+        l.href = b + '.avif';
+        l.setAttribute('imagesrcset', b + '-p-500.avif 500w, ' + b + '-p-800.avif 800w, ' + b + '-p-1080.avif 1080w, ' + b + '-p-1600.avif 1600w, ' + b + '.avif 1800w');
+        l.setAttribute('imagesizes', '(max-width: 1800px) 100vw, 1800px');
+        l.setAttribute('fetchpriority', 'high');
+        document.head.appendChild(l);
+      } catch (e) {}
+
+      window.__raeUnlock = unlock;
+      setTimeout(function () { if (d.classList.contains('is-loading')) unlock(); }, 10000); // watchdog: never trap a visitor
+      window.addEventListener('pageshow', function (e) { if (e.persisted && d.classList.contains('is-loading')) unlock(); });
+    }
+    window.__raeStart = start;
+
+    if (skip || (!force && (PAGES.indexOf(path) < 0 || seen || location.hash || reduce))) return;
+    start();
+  })();
+</script>
+
+<!-- CSS -->
+<link rel="stylesheet" href="/css/vendor/lenis.css">
+
+<!-- JS -->
+<script is:inline src="/js/vendor/lenis.min.js"></script>

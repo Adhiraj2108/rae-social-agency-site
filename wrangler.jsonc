@@ -1,0 +1,12 @@
+// Cloudflare Workers (static assets). Deploy with `npm run deploy`.
+// For Cloudflare Pages instead: build command `npm run build`, output directory `dist`.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "rae-social-agency",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}

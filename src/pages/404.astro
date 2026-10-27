@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CustomCode from '../components/global/CustomCode.astro';
+import { pages } from '../data/seo';
+---
+<BaseLayout {...pages.notFound}>
+  <div class="page-wrapper cc-utility">
+    <CustomCode />
+    <div class="utility_container">
+      <div class="eyebrow">404</div>
+      <h1>Page Not Found</h1>
+      <div class="paragraph-lg">The page you are looking for doesn&#x27;t exist or has been moved</div>
+      <div>
+        <div data-wf--button--button-variant="primary" class="button">
+          <div aria-hidden="true" class="btn-text">Go home</div>
+          <a href="/" class="u-link-cover w-inline-block">
+            <div class="u-sr-only">Go home</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

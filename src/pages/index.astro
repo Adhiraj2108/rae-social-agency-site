@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Loader from '../components/home/Loader.astro';
+import CustomCode from '../components/global/CustomCode.astro';
+import Nav from '../components/global/Nav.astro';
+import Footer from '../components/global/Footer.astro';
+import DrawerOverlay from '../components/home/DrawerOverlay.astro';
+import ProjectDrawer from '../components/home/ProjectDrawer.astro';
+import Hero from '../components/home/Hero.astro';
+import About from '../components/home/About.astro';
+import Work from '../components/home/Work.astro';
+import Statement from '../components/home/Statement.astro';
+import Services from '../components/home/Services.astro';
+import Testimonials from '../components/home/Testimonials.astro';
+import Campaigns from '../components/home/Campaigns.astro';
+import HomeHead from '../components/home/HomeHead.astro';
+import { pages, organizationSchema } from '../data/seo';
+---
+<BaseLayout {...pages.home}>
+  <Fragment slot="head-schema">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(organizationSchema, null, 2)} />
+  </Fragment>
+  <Fragment slot="head-end">
+    <HomeHead />
+  </Fragment>
+  <div class="page-wrapper u-minh-100vh">
+    <Loader />
+    <CustomCode />
+    <Nav />
+    <main class="page-main">
+      <DrawerOverlay />
+      <ProjectDrawer />
+      <Hero />
+      <About />
+      <Work />
+      <Statement />
+      <Services />
+      <Testimonials />
+      <Campaigns />
+    </main>
+    <Footer />
+  </div>
+  <Fragment slot="footer-page">
+    <script is:inline src="/js/site/home.js"></script>
+  </Fragment>
+  <Fragment slot="footer-end">
+    <script is:inline src="/js/vendor/hls.min.js" type="text/javascript"></script>
+    <script is:inline src="/js/site/thumbnailfromurl-1.0.1.js" type="text/javascript"></script>
+    <script is:inline src="/js/site/bunnymutetoggle-1.0.0.js" type="text/javascript"></script>
+    <script is:inline src="/js/site/scrollparallax-1.2.0.js" type="text/javascript"></script>
+    <script is:inline src="/js/site/imagereveal-1.1.0.js" type="text/javascript"></script>
+    <script is:inline src="/js/site/bunnybgplayerearly-1.1.0.js" type="text/javascript"></script>
+  </Fragment>
+</BaseLayout>
