@@ -44,7 +44,13 @@
   - the 7 custom scripts
   - Runtime-loaded files (GSAP CustomEase, the GSAP 3.13 files `linereveal` pulls in) are self-hosted too.
   - The only third-party host the site still calls is Bunny Stream, for the videos.
-- **CMS.** All 5 collections, 24 items, with every field, are in `src/content/*.json`. They are typed in `src/content.config.ts` and rendered with the same markup as Webflow, including Webflow's empty-field behaviour (`w-dyn-bind-empty`). List order is preserved exactly. Webflow ordered some lists by hand, so there is an explicit `order` field.
+- **CMS.** All 5 collections, 24 items, with every field, are in **Sanity**, project `khgb3vuz`, dataset `production`. The Studio is at https://raesocialagency.sanity.studio, and its code is in `studio/`.
+  - **How it was done:** first exported to JSON, then imported on 28 Oct 2026 by `studio/migrations/build-import.mjs`.
+  - **Rich text** became Portable Text.
+  - **Logos** became Sanity image assets.
+  - **Order** became drag-and-drop ranks.
+  - **Build:** `src/content.config.ts` fetches the content at build time and renders the same markup as Webflow, including Webflow's empty-field behaviour (`w-dyn-bind-empty`).
+  - **Check after the switch:** the built page is identical to the JSON version except the 17 logo `src` URLs, which now point at `cdn.sanity.io`. Layout is still a 100% match at 1440, 991, 767 and 375.
 - **SEO.**
   - Titles, descriptions, OG/Twitter tags and the `ProfessionalService` JSON-LD are carried over.
   - `og:image` is now an absolute URL.
@@ -87,7 +93,7 @@ Not covered by these numbers:
 ## Remainder — what did not come across
 
 1. **Changes published after 27 Oct 20:27 UTC.** The site was being edited during the migration, and those edits are left out as requested. Example: the hero "scroll down" link gained `data-underline-link`. To pick them up, re-export or apply them by hand.
-2. **Webflow's visual CMS editor.** Content is now JSON in the repo. See "Needs you".
+2. **Webflow's visual CMS editor.** Replaced by Sanity Studio. Edits go live on the next build, not instantly (see README → "Rebuild on publish").
 3. **Password page (401).** This is a Webflow hosting feature. If a page needs protecting, use Cloudflare Access.
 4. **Webflow hosting features:** form handling (the site has no forms), site search, and the Webflow Editor are not reproduced.
 5. **`project-more_flag`** in the drawer's "More from" slides is bound to a field the Webflow API does not expose. It is always empty on the live site and renders empty here.
@@ -104,7 +110,9 @@ Not covered by these numbers:
 
 | Decision | Recommendation |
 |---|---|
-| Where content lives | Keep JSON in the repo for now; it's 24 items. If non-developers need to edit, connect a headless CMS (e.g. Sanity) and keep the same schema. |
+| Sanity ownership | The project is in the **SOTW** organisation. To hand it to the client, invite them as Administrator, or transfer the project to their organisation (Project settings → Transfer). |
+| Rebuild on publish | Create the Cloudflare deploy hook and the Sanity webhook (README → "Rebuild on publish") once the Cloudflare project exists. |
+| API tokens | Creating the project generated a read token and a write token; the site uses neither. Delete them under API → Tokens unless you need them. |
 | Production domain | `https://www.raesocialagency.com` is set in `astro.config.mjs` and `src/data/seo.ts`. Change it if that's wrong. |
 | Favicon | Replace the Webflow default icons in `public/images/` with brand ones. |
 | Font licences | Geist and Geist Mono are OFL. Apfel Grotezk is free for commercial use under Collletttivo's licence; confirm the licence covers self-hosting. |

@@ -1,0 +1,25 @@
+{
+  "name": "rae-social-agency-studio",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "deploy-schema": "sanity schema deploy"
+  },
+  "dependencies": {
+    "@sanity/icons": "^5.2.3",
+    "@sanity/orderable-document-list": "^2.0.28",
+    "@sanity/vision": "^6.20.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "sanity": "^6.20.0",
+    "styled-components": "^6.6.0"
+  },
+  "devDependencies": {
+    "lexorank": "^1.0.5",
+    "typescript": "^7.0.2"
+  }
+}

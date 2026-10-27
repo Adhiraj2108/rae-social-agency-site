@@ -1,16 +1,32 @@
-// Content collections, one per Webflow CMS collection.
-// Each collection is a JSON array in src/content/; `id` is the Webflow item slug.
-// `order` reproduces the order the items appear in on the live Webflow site.
+// Content collections, one per CMS type. Content is edited in Sanity Studio
+// (studio/) and fetched here at build time; the zod schemas below re-check it.
+// `order` is the drag-and-drop order from the Studio.
 import { defineCollection } from 'astro:content';
-import { file } from 'astro/loaders';
 import { z } from 'astro/zod';
+import type { PortableTextBlock } from '@portabletext/types';
+import { richTextToHtml, sanity } from './lib/sanity';
+
+/** Loads every published document of a type, in Studio order. */
+function fromSanity<T extends { _id: string }>(type: string, projection: string, toEntry: (doc: T) => { id?: string } & Record<string, unknown>) {
+  return async () => {
+    const docs = await sanity.fetch<T[]>(`*[_type == $type] | order(orderRank asc) ${projection}`, { type });
+    return docs.map((doc, i) => ({ id: doc._id, ...toEntry(doc), order: i + 1 }));
+  };
+}
+
+type Img = { src: string; alt: string | null } | null;
+type Rich = PortableTextBlock[] | null;
 
 const image = z.object({ src: z.string(), alt: z.string().default('') });
-const richText = z.string().nullable().default(null); // HTML from Webflow's rich text editor
+const richText = z.string().nullable().default(null); // HTML rendered from Studio rich text
 const link = z.url().nullable().default(null);
 
 const clientLogos = defineCollection({
-  loader: file('src/content/client-logos.json'),
+  loader: fromSanity<{ _id: string; name: string; logoImage: Img }>(
+    'clientLogo',
+    '{ _id, name, "logoImage": logoImage{ "src": asset->url, alt } }',
+    (d) => ({ name: d.name, logoImage: d.logoImage?.src ? { src: d.logoImage.src, alt: d.logoImage.alt ?? '' } : null }),
+  ),
   schema: z.object({
     name: z.string(),
     order: z.number(),
@@ -19,7 +35,11 @@ const clientLogos = defineCollection({
 });
 
 const testimonials = defineCollection({
-  loader: file('src/content/testimonials.json'),
+  loader: fromSanity<{ _id: string; name: string; logo: Img; testimonial: string | null; clientName: string | null; designation: string | null }>(
+    'testimonial',
+    '{ _id, name, "logo": logo{ "src": asset->url }, testimonial, clientName, designation }',
+    (d) => ({ ...d, logo: d.logo?.src ? { src: d.logo.src, alt: '' } : null }),
+  ),
   schema: z.object({
     name: z.string(), // brand name
     order: z.number(),
@@ -31,7 +51,11 @@ const testimonials = defineCollection({
 });
 
 const campaigns = defineCollection({
-  loader: file('src/content/campaigns.json'),
+  loader: fromSanity<{ _id: string } & Record<string, unknown>>(
+    'campaign',
+    '{ _id, name, side, thumbnailSrc, videoSrc, instagramHandle, instagramLink, servicesProvided }',
+    (d) => d,
+  ),
   schema: z.object({
     name: z.string(),
     order: z.number(),
@@ -46,7 +70,11 @@ const campaigns = defineCollection({
 });
 
 const services = defineCollection({
-  loader: file('src/content/services.json'),
+  loader: fromSanity<{ _id: string; name: string; description: Rich }>(
+    'service',
+    '{ _id, name, description }',
+    (d) => ({ name: d.name, description: richTextToHtml(d.description) }),
+  ),
   schema: z.object({
     name: z.string(),
     order: z.number(),
@@ -55,7 +83,19 @@ const services = defineCollection({
 });
 
 const projects = defineCollection({
-  loader: file('src/content/projects.json'),
+  loader: fromSanity<{ _id: string; slug: string; description: Rich; credits: Rich; results: Rich; moreVideos: unknown[] | null } & Record<string, unknown>>(
+    'project',
+    '{ _id, "slug": slug.current, name, clientName, servicesProvided, description, credits, brief, approach, results, videoSrc, thumbnailUrl, "moreVideos": moreVideos[]{ src, thumbnailSrc } }',
+    // the slug is the id: it is the drawer's deep link (/#slug)
+    ({ _id: _, slug, description, credits, results, moreVideos, ...rest }) => ({
+      ...rest,
+      id: slug,
+      description: richTextToHtml(description),
+      credits: richTextToHtml(credits),
+      results: richTextToHtml(results),
+      moreVideos: moreVideos ?? [],
+    }),
+  ),
   schema: z.object({
     name: z.string(),
     order: z.number(),

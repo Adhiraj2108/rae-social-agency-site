@@ -6,32 +6,59 @@ Astro rebuild of the Rae Social Agency Webflow site (`rae-social-agency.webflow.
 
 ```bash
 npm install
+cp .env.example .env   # optional: defaults already point at the Sanity project
 npm run dev        # http://localhost:4321
 npm run build      # static site in dist/
 npm run preview    # serve dist/ locally
 npm run check      # type-check
 ```
 
-Requires Node 20+.
+Requires Node 22.23+ (`.node-version` pins it for Cloudflare builds).
 
-## Edit content (the former Webflow CMS)
+## Edit content: Sanity Studio
 
-Each Webflow CMS collection is now a JSON file in `src/content/`, validated by the schema in `src/content.config.ts`. A build fails if an entry does not match the schema.
+Content lives in Sanity (project `khgb3vuz`, dataset `production`). Edit it in the Studio:
 
-| Collection | File | Shown in |
-|---|---|---|
-| Projects | `src/content/projects.json` | "Selected Projects" + the project drawer |
-| Services | `src/content/services.json` | Services accordion |
-| Testimonials | `src/content/testimonials.json` | Sticky testimonials |
-| Campaigns | `src/content/campaigns.json` | Campaign reels (`side`: `Left` / `Right` column) |
-| Client Logos | `src/content/client-logos.json` | Logo marquee |
+- **Hosted Studio:** https://raesocialagency.sanity.studio. Sign in with a Sanity account that's a member of the project. Invite editors at https://www.sanity.io/manage/project/khgb3vuz/members.
+- **Locally:** `npm run studio:install` once, then `npm run studio:dev` (http://localhost:3333).
 
-- `id` is the Webflow slug. For projects it is also the drawer deep link (`/#spring-menu`).
-- `order` sets the position in the list.
-- Rich-text fields (`description`, `credits`, `results`) are HTML strings.
-- Videos are Bunny Stream URLs (`…/playlist.m3u8` and `…/thumbnail.jpg`).
-- Images go in `public/images/cms/…` and are referenced by path.
-- An empty optional field is hidden on the page, as in Webflow.
+| Studio list | Shown on the site in |
+|---|---|
+| Projects | "Selected Projects" + the project drawer |
+| Services | Services accordion |
+| Testimonials | Sticky testimonials |
+| Campaigns | Campaign reels (`Side`: left / right column) |
+| Client logos | Logo marquee |
+
+- **Order:** drag items in each list. That order is the order on the site.
+- **Project slug:** it's the drawer deep link, e.g. `/#spring-menu`.
+- **Videos:** Bunny Stream URLs (`…/playlist.m3u8` and the thumbnail `.jpg`). Videos are not uploaded to Sanity.
+- **Empty optional fields** are hidden on the page, as in Webflow.
+
+**When does the site change?** The site is static. It reads published content **at build time**:
+- after an edit is published, trigger a new build (see "Rebuild on publish");
+- locally, restart `npm run dev`, or type `s` + Enter in the dev server terminal to re-sync content.
+
+The fetch and the checks run in `src/content.config.ts`: the GROQ queries plus a zod schema per type. A build fails rather than shipping malformed content.
+
+The Studio code (schemas, list structure) is in `studio/`. After changing a schema, run `npm run studio:deploy`. The original Webflow export and the one-time import script are in `studio/migrations/`.
+
+### Rebuild on publish
+
+Set this up once the Cloudflare project exists:
+
+1. In Cloudflare, open the project and create a **deploy hook**:
+   - **Pages:** *Settings → Builds → Deploy hooks*.
+   - **Workers Builds:** *Settings → Build → Deploy hooks*.
+   - Copy the URL.
+2. In Sanity, open https://www.sanity.io/manage/project/khgb3vuz/api/webhooks and choose *Create webhook*:
+   - **URL:** the deploy hook.
+   - **Dataset:** `production`.
+   - **Trigger on:** create, update, delete.
+   - **Filter:** `_type in ["project","service","testimonial","campaign","clientLogo"]`
+   - **HTTP method:** POST.
+
+From then on, publishing in the Studio redeploys the site in about a minute.
 
 ## Deploy to Cloudflare
 
@@ -61,9 +88,11 @@ src/
     global/         Nav, Footer, HeadCode (head custom code), CustomCode (Mast/Swiper embeds)
     home/           one component per home page section + Loader, ProjectDrawer, HomeHead
     BunnyBg.astro   Bunny Stream background video player
-  content/          CMS data (JSON)
+  content.config.ts loads each content type from Sanity at build time
+  lib/sanity.ts     Sanity client + rich text → HTML
   lib/cms.ts        collection getters, Webflow empty-field behaviour
   data/seo.ts       titles, descriptions, OG, JSON-LD
+studio/             Sanity Studio: schemas, list structure, Webflow import
 public/
   css/webflow.css   the site's stylesheet (all design tokens live in its :root)
   css/vendor/       Lenis, Swiper, Phosphor icons

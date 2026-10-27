@@ -1,6 +1,6 @@
 # Rae Social Agency site — notes for agents
 
-Astro 7 static site, migrated 1:1 from Webflow. See README.md (run/deploy) and MIGRATION.md (what was carried over).
+Astro 7 static site, migrated 1:1 from Webflow, content in Sanity (project `khgb3vuz`, dataset `production`; Studio in `studio/`, deployed at raesocialagency.sanity.studio). See README.md (run/deploy/edit) and MIGRATION.md (what was carried over).
 
 ## Rules
 
