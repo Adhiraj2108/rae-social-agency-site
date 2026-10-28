@@ -10,8 +10,8 @@ e.preventDefault();if(a.__copied)return;
 var t=a.querySelector('.footer-link')||a;
 copy(m).then(function(){
 a.__copied=1;var old=t.textContent;
-t.style.minWidth=t.offsetWidth+'px';t.textContent='Copied!';a.setAttribute('aria-live','polite');
-setTimeout(function(){t.textContent=old;t.style.minWidth='';a.__copied=0;},1800);
+t.textContent='Copied!';a.setAttribute('data-copied','');a.setAttribute('aria-live','polite');
+setTimeout(function(){t.textContent=old;a.removeAttribute('data-copied');a.__copied=0;},1800);
 },function(){location.href='mailto:'+m;});
 });
 })();

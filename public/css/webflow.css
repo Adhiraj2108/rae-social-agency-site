@@ -5344,7 +5344,6 @@ figcaption {
   grid-row-gap: 4vw;
   flex-flow: column;
   max-width: 90ch;
-  padding-top: 1.5rem;
   display: flex;
   position: sticky;
   top: 80px;
