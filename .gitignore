@@ -24,3 +24,6 @@ studio/migrations/webflow-import.ndjson
 
 # ShipStudio metadata
 .shipstudio/
+
+# Temporary filesystem files
+.fuse_hidden*

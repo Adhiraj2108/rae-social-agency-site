@@ -1,10 +1,9 @@
 (function(){
 window.__lineReveal=1;
 if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-var D=document,C='/js/vendor/gsap/3.13.0/';
-function L(n,f){return window[n]?0:new Promise(function(r,j){var s=D.createElement('script');s.src=C+f;s.onload=r;s.onerror=j;D.head.appendChild(s);});}
+var D=document;
 async function go(){try{
-await L('gsap','gsap.min.js');await L('SplitText','SplitText.min.js');
+if(!window.gsap||!window.SplitText)return;
 if(D.fonts)await D.fonts.ready;
 var g=gsap;g.registerPlugin(SplitText);
 g.registerEase('osmo',function(p){var a=0,b=1,t=p,u;for(var i=0;i<30;i++){t=(a+b)/2;u=1-t;if(3*u*u*t*.625+t*t*t<p)a=t;else b=t;}u=1-t;return 3*u*u*t*.05+3*u*t*t+t*t*t;});

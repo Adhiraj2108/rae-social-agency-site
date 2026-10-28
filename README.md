@@ -90,7 +90,7 @@ src/
   pages/            index.astro, 404.astro, style-guide.astro (design tokens, noindex)
   layouts/          BaseLayout.astro — <head>, site-wide scripts
   components/
-    global/         Nav, Footer, HeadCode (head custom code), CustomCode (Mast/Swiper embeds)
+    global/         Nav, Footer, HeadCode (head custom code), CustomCode (shared styles and marquee)
     home/           one component per home page section + Loader, ProjectDrawer, HomeHead
     BunnyBg.astro   Bunny Stream background video player
   content.config.ts loads each content type from Sanity at build time
@@ -100,11 +100,11 @@ src/
 studio/             Sanity Studio: schemas, list structure, Webflow import
 public/
   css/webflow.css   the site's stylesheet (all design tokens live in its :root)
-  css/vendor/       Lenis, Swiper, Phosphor icons
+  css/vendor/       Lenis
   fonts/            Apfel Grotezk, Geist, Geist Mono (self-hosted)
   images/           all site images, incl. responsive -p-500…-p-3200 variants
   js/webflow/       Webflow runtime (nav, IX3 "stagger children" interaction)
-  js/vendor/        jQuery, GSAP 3.15 (+3.13 used by linereveal), Lenis, Swiper, hls.js, Mast
+  js/vendor/        jQuery, GSAP 3.15, Lenis, hls.js
   js/site/          the site's own scripts (loader, drawer, testimonials, reveals, parallax, video)
 ```
 

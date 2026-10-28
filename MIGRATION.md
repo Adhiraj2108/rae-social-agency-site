@@ -116,3 +116,7 @@ Not covered by these numbers:
 | Production domain | `https://www.raesocialagency.com.au` is set in `astro.config.mjs` and `src/data/seo.ts`. Change it if that's wrong. |
 | Favicon | Replace the Webflow default icons in `public/images/` with brand ones. |
 | Font licences | Geist and Geist Mono are OFL. Apfel Grotezk is free for commercial use under Collletttivo's licence; confirm the licence covers self-hosting. |
+
+## Post-migration cleanup
+
+Removed unused Phosphor icon fonts, Swiper, Mast UI helpers, and Webflow editor-only styles after checking the Astro templates. The services accordion, project drawer, and Bunny video players use the site’s own scripts. Line reveals now share the layout’s GSAP 3.15 scripts instead of keeping a second version. Grain textures use pixel-verified lossless WebP variants. The original migration notes above describe the initial import.
