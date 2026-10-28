@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /studio/
 
-Sitemap: https://www.raesocialagency.com/sitemap-index.xml
+Sitemap: https://www.raesocialagency.com.au/sitemap-index.xml

@@ -113,6 +113,6 @@ Not covered by these numbers:
 | Sanity ownership | The project is in the **SOTW** organisation. To hand it to the client, invite them as Administrator, or transfer the project to their organisation (Project settings → Transfer). |
 | Rebuild on publish | Create the Cloudflare deploy hook and the Sanity webhook (README → "Rebuild on publish") once the Cloudflare project exists. |
 | API tokens | Creating the project generated a read token and a write token; the site uses neither. Delete them under API → Tokens unless you need them. |
-| Production domain | `https://www.raesocialagency.com` is set in `astro.config.mjs` and `src/data/seo.ts`. Change it if that's wrong. |
+| Production domain | `https://www.raesocialagency.com.au` is set in `astro.config.mjs` and `src/data/seo.ts`. Change it if that's wrong. |
 | Favicon | Replace the Webflow default icons in `public/images/` with brand ones. |
 | Font licences | Geist and Geist Mono are OFL. Apfel Grotezk is free for commercial use under Collletttivo's licence; confirm the licence covers self-hosting. |

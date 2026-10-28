@@ -22,7 +22,7 @@ export const project = defineType({
       title: 'Slug',
       type: 'slug',
       group: 'info',
-      description: 'Used in the link that opens this project: raesocialagency.com/#slug',
+      description: 'Used in the link that opens this project: raesocialagency.com.au/#slug',
       options: { source: 'name', maxLength: 96 },
       validation: (rule) => rule.required(),
     }),

@@ -4,8 +4,12 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "rae-social-agency",
   "compatibility_date": "2026-10-01",
+  // Only runs for /studio/* (everything else is served straight from dist/): sends Studio deep links to the Studio app.
+  "main": "worker/index.js",
   "assets": {
     "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": ["/studio/*"],
     "not_found_handling": "404-page",
     "html_handling": "auto-trailing-slash"
   }

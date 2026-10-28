@@ -8,8 +8,9 @@ Astro rebuild of the Rae Social Agency Webflow site (`rae-social-agency.webflow.
 npm install
 cp .env.example .env   # optional: defaults already point at the Sanity project
 npm run dev        # http://localhost:4321
-npm run build      # static site in dist/
+npm run build      # static site in dist/, with the Studio in dist/studio
 npm run preview    # serve dist/ locally
+npm run cf:dev     # build, then serve it like Cloudflare does (site + /studio): http://localhost:8787
 npm run check      # type-check
 ```
 
@@ -19,8 +20,10 @@ Requires Node 22.23+ (`.node-version` pins it for Cloudflare builds).
 
 Content lives in Sanity (project `khgb3vuz`, dataset `production`). Edit it in the Studio:
 
-- **Hosted Studio:** https://raesocialagency.sanity.studio. Sign in with a Sanity account that's a member of the project. Invite editors at https://www.sanity.io/manage/project/khgb3vuz/members.
-- **Locally:** `npm run studio:install` once, then `npm run studio:dev` (http://localhost:3333).
+- **On the site:** `/studio` (e.g. https://www.raesocialagency.com.au/studio once the site is live). `npm run build` builds the Studio into `dist/studio`, and `worker/index.js` sends Studio deep links (`/studio/structure/...`) to it. Sign in with a Sanity account that's a member of the project. Invite editors at https://www.sanity.io/manage/project/khgb3vuz/members.
+- **Locally:** `npm run studio:dev` (http://localhost:3333/studio), or `npm run cf:dev` for the site and Studio together (http://localhost:8787/studio).
+- **Allowed origins:** the Studio only signs in from origins listed at https://www.sanity.io/manage/project/khgb3vuz/api (*CORS origins*, with *Allow credentials* on). Add each address you open it from: `http://localhost:8787`, the `*.workers.dev` URL, and the live domain.
+- The old hosted Studio (https://raesocialagency.sanity.studio) still works until it's removed with `npx sanity undeploy` in `studio/`.
 
 | Studio list | Shown on the site in |
 |---|---|
@@ -41,7 +44,7 @@ Content lives in Sanity (project `khgb3vuz`, dataset `production`). Edit it in t
 
 The fetch and the checks run in `src/content.config.ts`: the GROQ queries plus a zod schema per type. A build fails rather than shipping malformed content.
 
-The Studio code (schemas, list structure) is in `studio/`. After changing a schema, run `npm run studio:deploy`. The original Webflow export and the one-time import script are in `studio/migrations/`.
+The Studio code (schemas, list structure) is in `studio/`. After changing a schema, redeploy the site; the Studio ships with it. The original Webflow export and the one-time import script are in `studio/migrations/`.
 
 ### Rebuild on publish
 
@@ -73,6 +76,8 @@ npm run deploy
 - framework preset: Astro
 - build command: `npm run build`
 - output directory: `dist`
+
+Prefer Workers: Pages ignores `worker/index.js`, so on Pages reloading a Studio page other than `/studio/` gives a 404.
 
 Either way, `dist/404.html` is served for unknown URLs, and `public/_headers` sets caching.
 

@@ -1,4 +1,4 @@
-export const SITE_URL = 'https://www.raesocialagency.com';
+export const SITE_URL = 'https://www.raesocialagency.com.au';
 /** Kept on <html data-wf-site> because webflow.js reads it to run the site's IX3 interactions. */
 export const WEBFLOW_SITE_ID = '6abe0e27763529229eb860de';
 
@@ -26,10 +26,10 @@ export const organizationSchema = {
   "@graph": [
     {
       "@type": "ProfessionalService",
-      "@id": "https://www.raesocialagency.com/#organization",
+      "@id": "https://www.raesocialagency.com.au/#organization",
       "name": "Rae Social Agency",
       "description": "Content-focused social media and creative agency offering campaign production, content production, social media management, influencer management and paid media.",
-      "email": "hello@raesocialagency.com",
+      "email": "hello@raesocialagency.com.au",
       "image": `${SITE_URL}/images/hero-image.avif`,
       "address": {
         "@type": "PostalAddress",
@@ -85,7 +85,7 @@ export const organizationSchema = {
       "@type": "WebPage",
       "name": "Rae Social Agency",
       "about": {
-        "@id": "https://www.raesocialagency.com/#organization"
+        "@id": "https://www.raesocialagency.com.au/#organization"
       }
     }
   ]

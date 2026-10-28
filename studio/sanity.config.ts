@@ -9,6 +9,8 @@ export default defineConfig({
   title: 'Rae Social Agency',
   projectId: 'khgb3vuz',
   dataset: 'production',
+  // Served from the site at /studio (built into dist/studio by `npm run build`)
+  basePath: '/studio',
   plugins: [structureTool({ structure }), visionTool()],
   schema: { types: schemaTypes },
 })
