@@ -83,14 +83,13 @@ const services = defineCollection({
 });
 
 const projects = defineCollection({
-  loader: fromSanity<{ _id: string; slug: string; description: Rich; credits: Rich; results: Rich; moreVideos: unknown[] | null } & Record<string, unknown>>(
+  loader: fromSanity<{ _id: string; slug: string; credits: Rich; results: Rich; moreVideos: unknown[] | null } & Record<string, unknown>>(
     'project',
-    '{ _id, "slug": slug.current, name, clientName, servicesProvided, description, credits, brief, approach, results, videoSrc, thumbnailUrl, "moreVideos": moreVideos[]{ src, thumbnailSrc } }',
+    '{ _id, "slug": slug.current, name, clientName, servicesProvided, credits, brief, approach, results, videoSrc, thumbnailUrl, "moreVideos": moreVideos[]{ src, thumbnailSrc } }',
     // the slug is the id: it is the drawer's deep link (/#slug)
-    ({ _id: _, slug, description, credits, results, moreVideos, ...rest }) => ({
+    ({ _id: _, slug, credits, results, moreVideos, ...rest }) => ({
       ...rest,
       id: slug,
-      description: richTextToHtml(description),
       credits: richTextToHtml(credits),
       results: richTextToHtml(results),
       moreVideos: moreVideos ?? [],
@@ -101,7 +100,6 @@ const projects = defineCollection({
     order: z.number(),
     clientName: z.string().nullable().default(null),
     servicesProvided: z.string().nullable().default(null),
-    description: richText,
     credits: richText,
     brief: z.string().nullable().default(null),
     approach: z.string().nullable().default(null),

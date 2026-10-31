@@ -7,7 +7,7 @@ Astro rebuild of the Rae Social Agency Webflow site (`rae-social-agency.webflow.
 ```bash
 npm install
 cp .env.example .env   # optional: defaults already point at the Sanity project
-npm run dev        # http://localhost:4321
+npm run dev        # website: http://localhost:4321, Studio: http://localhost:4321/studio
 npm run build      # static site in dist/, with the Studio in dist/studio
 npm run preview    # serve dist/ locally
 npm run cf:dev     # build, then serve it like Cloudflare does (site + /studio): http://localhost:8787
@@ -21,8 +21,8 @@ Requires Node 22.23+ (`.node-version` pins it for Cloudflare builds).
 Content lives in Sanity (project `khgb3vuz`, dataset `production`). Edit it in the Studio:
 
 - **On the site:** `/studio` (e.g. https://www.raesocialagency.com.au/studio once the site is live). `npm run build` builds the Studio into `dist/studio`, and `worker/index.js` sends Studio deep links (`/studio/structure/...`) to it. Sign in with a Sanity account that's a member of the project. Invite editors at https://www.sanity.io/manage/project/khgb3vuz/members.
-- **Locally:** `npm run studio:dev` (http://localhost:3333/studio), or `npm run cf:dev` for the site and Studio together (http://localhost:8787/studio).
-- **Allowed origins:** the Studio only signs in from origins listed at https://www.sanity.io/manage/project/khgb3vuz/api (*CORS origins*, with *Allow credentials* on). Add each address you open it from: `http://localhost:8787`, the `*.workers.dev` URL, and the live domain.
+- **Locally:** run `npm run dev` for the website at http://localhost:4321 and Studio at http://localhost:4321/studio. One command starts both with live code updates; Ctrl+C stops both. Studio uses an internal development server on port 3333, proxied through the website, so you only need the 4321 address. The optional `npm run cf:dev` command previews the production build on port 8787; use it only when checking Cloudflare-specific behavior.
+- **Allowed origins:** the Studio only signs in from origins listed at https://www.sanity.io/manage/project/khgb3vuz/api (*CORS origins*, with *Allow credentials* on). Add each address you open it from: `http://localhost:4321` (the everyday development address), `http://localhost:8787` if using the Cloudflare preview, the `*.workers.dev` URL, and the live domain.
 - The old hosted Studio (https://raesocialagency.sanity.studio) still works until it's removed with `npx sanity undeploy` in `studio/`.
 
 | Studio list | Shown on the site in |
@@ -34,6 +34,7 @@ Content lives in Sanity (project `khgb3vuz`, dataset `production`). Edit it in t
 | Client logos | Logo marquee |
 
 - **Order:** drag items in each list. That order is the order on the site.
+- **Drawer videos:** in a Project’s **More reels** tab, add up to five reels with a **Video URL** and optional **Thumbnail URL**. Reels with no Video URL are hidden, including gaps between filled reels. The “More from” section is hidden when all video URLs are blank. Publish and rebuild to update the site.
 - **Project slug:** it's the drawer deep link, e.g. `/#spring-menu`.
 - **Videos:** Bunny Stream URLs (`…/playlist.m3u8` and the thumbnail `.jpg`). Videos are not uploaded to Sanity.
 - **Empty optional fields** are hidden on the page, as in Webflow.

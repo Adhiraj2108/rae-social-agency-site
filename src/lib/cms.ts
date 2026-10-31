@@ -29,8 +29,7 @@ export function bindClass(base: string, value: unknown): string | undefined {
 /** The drawer's "More from" carousel always renders five slots, like the Webflow template. */
 export function moreVideoSlots(project: { moreVideos: { src: string | null; thumbnailSrc: string | null }[] }) {
   return Array.from({ length: 5 }, (_, i) => ({
-    src: project.moreVideos[i]?.src ?? '',
-    thumbnailSrc: project.moreVideos[i]?.thumbnailSrc ?? '',
-    flag: '',
+    src: project.moreVideos[i]?.src?.trim() ?? '',
+    thumbnailSrc: project.moreVideos[i]?.thumbnailSrc?.trim() ?? '',
   }));
 }

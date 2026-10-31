@@ -46,13 +46,6 @@
     display: none;
   }
 
-  /* Project drawer "More from" carousel: each slide carries a hidden flag bound to its video src.
-   An empty flag hides the slide; an empty Video 1 hides the whole section (videos are filled in order). */
-  .project-more_slide:has(> .project-more_flag.w-dyn-bind-empty),
-  .project-more_wrap:has(.project-more_scroll > :first-child > .project-more_flag.w-dyn-bind-empty) {
-    display: none;
-  }
-
   /* Underlines CSS */
   [data-underline-link] {
     text-decoration: none;

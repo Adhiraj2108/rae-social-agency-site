@@ -2,8 +2,7 @@
 // [data-drawer-open] links, with GSAP slide-in, focus trap, scroll lock and
 // #slug deep links. Extracted from the site's Odyn bundle; the bundle's
 // live-reload WebSocket (an editor tool) is intentionally left out.
-var OdynCode = (() => {
-  // odyn:/__entry__.tsx
+(() => {
   function initProjectDrawer() {
     "use strict";
     if (window.projectDrawer) return window.projectDrawer;
@@ -16,7 +15,7 @@ var OdynCode = (() => {
     const scroller = root.querySelector("[data-drawer-scroll]") || root;
     const docEl = document.documentElement;
     const body = document.body;
-    const panels = /* @__PURE__ */ new Map();
+    const panels = new Map();
     root.querySelectorAll("[data-drawer-panel]").forEach((p) => {
       panels.set(p.dataset.drawerPanel, p);
       p.hidden = true;
@@ -29,18 +28,13 @@ var OdynCode = (() => {
     const duration = isNaN(parseFloat(root.dataset.drawerDuration)) ? 0.6 : parseFloat(root.dataset.drawerDuration);
     const ease = root.dataset.drawerEase || "expo.out";
     const updateDocTitle = root.hasAttribute("data-drawer-update-title");
-    const getLenis = () => window[root.dataset.drawerLenis || "lenis"];
+    const getLenis = () => {
+      if (root.dataset.drawerLenis) return window[root.dataset.drawerLenis];
+      return typeof lenis !== "undefined" ? lenis : window.lenis;
+    };
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
-    if (titleEl && !titleEl.id) titleEl.id = "drawer-title";
-    root.setAttribute("role", "dialog");
-    root.setAttribute("aria-modal", "true");
-    if (titleEl) root.setAttribute("aria-labelledby", titleEl.id);
-    root.setAttribute("aria-hidden", "true");
-    root.setAttribute("tabindex", "-1");
-    root.style.outline = "none";
-    root.inert = true;
     root.dataset.state = "closed";
     if (overlay) overlay.setAttribute("aria-hidden", "true");
     if (!scroller.hasAttribute("tabindex"))
@@ -48,7 +42,7 @@ var OdynCode = (() => {
     scroller.setAttribute("data-lenis-prevent", "");
     scroller.style.overscrollBehavior = "contain";
     let isOpen = false;
-    let locked = false;
+    let scrollState = null;
     let current = null;
     let shownPanel = null;
     let trigger = null;
@@ -128,23 +122,26 @@ var OdynCode = (() => {
       inerted = [];
     }
     function lockScroll() {
-      if (locked) return;
-      locked = true;
-      const sbw = window.innerWidth - docEl.clientWidth;
-      docEl.style.setProperty("--drawer-sbw", sbw + "px");
-      docEl.style.overflow = "hidden";
-      if (sbw > 0) body.style.paddingRight = sbw + "px";
+      if (scrollState) return;
       const l = getLenis();
+      scrollState = {
+        overflow: docEl.style.overflow,
+        paddingRight: body.style.paddingRight,
+        lenis: l,
+        wasStopped: l?.isStopped,
+      };
+      const sbw = window.innerWidth - docEl.clientWidth;
+      docEl.style.overflow = "hidden";
+      if (sbw > 0) body.style.paddingRight = (parseFloat(getComputedStyle(body).paddingRight) + sbw) + "px";
       if (l && typeof l.stop === "function") l.stop();
     }
     function unlockScroll() {
-      if (!locked) return;
-      locked = false;
-      docEl.style.overflow = "";
-      docEl.style.removeProperty("--drawer-sbw");
-      body.style.paddingRight = "";
-      const l = getLenis();
-      if (l && typeof l.start === "function") l.start();
+      if (!scrollState) return;
+      const saved = scrollState;
+      scrollState = null;
+      docEl.style.overflow = saved.overflow;
+      body.style.paddingRight = saved.paddingRight;
+      if (saved.lenis && !saved.wasStopped && typeof saved.lenis.start === "function") saved.lenis.start();
     }
     function renderPanel(slug, triggerEl) {
       if (shownPanel) {

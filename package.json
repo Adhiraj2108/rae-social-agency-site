@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "astro dev",
+    "dev": "node scripts/dev.mjs",
     "build": "astro build && npm run studio:build",
     "postinstall": "npm --prefix studio install --no-audit --no-fund",
     "preview": "astro preview",

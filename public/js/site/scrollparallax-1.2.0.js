@@ -7,7 +7,7 @@ try{lenis.on('scroll',ST.update)}catch(e){}
 document.querySelectorAll('[data-hero-parallax]').forEach(function(h){
 var img=h.querySelector('[data-hero-parallax-img]');if(!img)return;
 if(img.parentNode)img.parentNode.style.overflow='clip';
-g.timeline({scrollTrigger:{trigger:h,start:'top top',end:'bottom top',scrub:true}}).to(img,{yPercent:50,opacity:.55,ease:'none'});});
+g.timeline({scrollTrigger:{trigger:h,start:'top top',end:'bottom top',scrub:true}}).to(img,{yPercent:50,opacity:.4,ease:'none'});});
 /* section image: drifts 12% each way against the scroll; scale 1.25 keeps the edges covered */
 document.querySelectorAll('[data-parallax-img]').forEach(function(img){
 var s=img.closest('section');if(!s)return;

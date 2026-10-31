@@ -61,7 +61,6 @@ for (const { item, orderRank } of ranked(load('projects'))) {
     slug: { _type: 'slug', current: item.id },
     clientName: item.clientName,
     servicesProvided: item.servicesProvided,
-    description: htmlToBlocks(item.description),
     brief: item.brief,
     approach: item.approach,
     results: htmlToBlocks(item.results),

@@ -123,3 +123,24 @@
     display: none;
   }
 }
+
+/* Drawer state and empty Sanity video slots. Keep later filled slots visible when earlier ones are blank. */
+[data-drawer-root],
+[data-drawer-overlay] {
+  visibility: hidden;
+}
+.project-more_slide.w-dyn-bind-empty,
+.project-more_wrap:not(:has(.project-more_slide:not(.w-dyn-bind-empty))) {
+  display: none;
+}
+.btn-drawer-close {
+  z-index: 1;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+.btn-drawer-close:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}

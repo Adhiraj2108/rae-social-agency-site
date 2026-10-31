@@ -4,30 +4,12 @@ import { bindClass, getProjects, moreVideoSlots } from '../../lib/cms';
 
 const projects = await getProjects();
 ---
-<div data-drawer-root="" data-drawer-update-title="" class="project_drawer">
-  <div class="project-drawer-css w-embed">
-    <style is:inline>
-  [data-drawer-root],
-  [data-drawer-overlay] {
-    visibility: hidden;
-  }
-
-  /* Remove scroll bar */
-  .drawer_scroll {
-    /* Firefox */
-    scrollbar-width: none;
-
-    /* Safari and Chrome */
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
-</style>
-  </div>
+<div data-drawer-root="" data-drawer-update-title="" class="project_drawer" role="dialog" aria-modal="true" aria-labelledby="project-drawer-title" aria-hidden="true" tabindex="-1" inert>
+  <span id="project-drawer-title" data-drawer-title="" class="u-sr-only">Project details</span>
   <div class="drawer_padding">
-    <div aria-label="close project details" data-drawer-close="" data-hover="" class="btn-drawer-close">
-      <p data-underline-link="alt" class="nav-link">Close</p>
-    </div>
+    <button type="button" aria-label="Close project details" data-drawer-close="" data-hover="" class="btn-drawer-close">
+      <span data-underline-link="alt" class="nav-link">Close</span>
+    </button>
     <div data-drawer-scroll="" class="drawer_scroll">
       <div class="drawer_content">
         <div class="w-dyn-list">
@@ -81,9 +63,8 @@ const projects = await getProjects();
                       </div>
                       <div class="project-more_scroll">
                         {moreVideoSlots(p).map((v) => (
-                          <div class="project-more_slide">
-                            <div class={bindClass('project-more_flag', v.flag)}>{v.flag}</div>
-                            <BunnyBg src={v.src} thumb={v.thumbnailSrc} />
+                          <div class={bindClass('project-more_slide', v.src)}>
+                            {v.src && <BunnyBg src={v.src} thumb={v.thumbnailSrc} />}
                           </div>
                         ))}
                       </div>

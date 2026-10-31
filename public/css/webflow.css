@@ -2224,7 +2224,7 @@ textarea.w-input, textarea.w-select {
   --_components---section--padding: clamp(var(--_components---section--padding-min-rem) * 1rem, ((var(--_components---section--padding-min-rem)  - ((var(--_components---section--padding-max-rem)  - var(--_components---section--padding-min-rem)) / (var(--_layout---fluid--max)  - var(--_layout---fluid--min)) * var(--_layout---fluid--min))) * 1rem + ((var(--_components---section--padding-max-rem)  - var(--_components---section--padding-min-rem)) / (var(--_layout---fluid--max)  - var(--_layout---fluid--min))) * 100vw), var(--_components---section--padding-max-rem) * 1rem);
   --primary--border: var(--_color---neutral--mid-gray-1);
   --_color---neutral--black: #1b1815;
-  --_color---primary--pale-blue: #d4dae2;
+  --_color---primary--pale-blue: #A4B6C3;
   --_color---neutral--white: white;
   --_layout---grid--gap-main: 40px;
   --_layout---grid--gap-md: 20px;

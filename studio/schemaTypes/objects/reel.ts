@@ -9,7 +9,7 @@ export const reel = defineType({
   type: 'object',
   icon: PlayIcon,
   fields: [
-    defineField({ name: 'src', title: 'Video URL', type: 'url', description: 'Bunny Stream playlist, ending in /playlist.m3u8', validation: bunnyUrl }),
+    defineField({ name: 'src', title: 'Video URL', type: 'url', description: 'Bunny Stream playlist, ending in /playlist.m3u8. Leave blank to hide this reel from the project drawer.', validation: bunnyUrl }),
     defineField({ name: 'thumbnailSrc', title: 'Thumbnail URL', type: 'url', description: 'Bunny Stream thumbnail (.jpg)', validation: bunnyUrl }),
   ],
   preview: { select: { title: 'src', media: 'thumbnailSrc' }, prepare: ({ title }) => ({ title: title ?? 'Reel' }) },

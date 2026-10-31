@@ -28,7 +28,7 @@ Astro 7 static site, migrated 1:1 from Webflow, content in Sanity (project `khgb
 | `--_color---neutral--mid-gray-1` | `#cccabf` | borders (`--primary--border`) |
 | `--_color---neutral--mid-gray-2` | `#474641` | |
 | `--_color---neutral--dark-gray` | `#292825` | |
-| `--_color---primary--pale-blue` | `#d4dae2` | accent (`--primary--accent`) |
+| `--_color---primary--pale-blue` | `#A4B6C3` | accent (`--primary--accent`) |
 | `--_color---primary--burgundy` | `#2b181a` | dark accent (`--primary--accent-dark`) |
 
 **Type**

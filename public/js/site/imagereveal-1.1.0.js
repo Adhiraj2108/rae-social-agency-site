@@ -9,17 +9,15 @@ u=1-t;return 3*u*u*t*.05+3*u*t*t+t*t*t;});}
 function seen(el,fn){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){io.disconnect();fn();}});},{rootMargin:'0px 0px -12% 0px'});io.observe(el);}
 function init(){
 var g=window.gsap;if(!g)return;osmo(g);
-/* unmask from the bottom up, image zooms out 1.25 -> 1 */
-document.querySelectorAll('[data-img-reveal]').forEach(function(el){
-var im=el.querySelector('img');
+/* Side images and video frames share the same bottom-up unmask and 1.25 -> 1 zoom. */
+document.querySelectorAll('[data-img-reveal], [data-reel-in], [data-drawer-panel] .bunny-bg').forEach(function(el){
+var media=el.querySelectorAll('video, .bunny-bg__placeholder');
+if(!media.length)media=el.querySelectorAll('img');
 g.set(el,{clipPath:'inset(100% 0% 0% 0%)'});
-if(im)g.set(im,{scale:1.25});
+if(media.length)g.set(media,{scale:1.25});
 seen(el,function(){
 g.to(el,{clipPath:'inset(0% 0% 0% 0%)',duration:1.2,ease:'osmo',clearProps:'clipPath'});
-if(im)g.to(im,{scale:1,duration:1.2,ease:'osmo',clearProps:'transform'});});});
-/* campaign reels: fade in while scaling 1.15 -> 1 */
-document.querySelectorAll('[data-reel-in]').forEach(function(el){
-g.set(el,{opacity:0,scale:1.15});
-seen(el,function(){g.to(el,{opacity:1,scale:1,duration:1.2,ease:'osmo',clearProps:'opacity,transform'});});});}
-if(window.gsap)init();else addEventListener('load',init);
+if(media.length)g.to(media,{scale:1,duration:1.2,ease:'osmo',clearProps:'transform'});});});}
+/* Wait for thumbnail setup so both the poster and video animate together. */
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
