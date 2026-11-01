@@ -42,6 +42,9 @@
 .footer-link {
   justify-content: flex-start;
 }
+[data-copy-email] .footer-link {
+  width: fit-content;
+}
 [data-copied] [data-underline-link]::before {
   transform: scaleX(0) rotate(0.001deg) !important;
   transition: none;
