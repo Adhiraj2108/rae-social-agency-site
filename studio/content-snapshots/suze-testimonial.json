@@ -1,0 +1,23 @@
+{
+  "projectId": "khgb3vuz",
+  "dataset": "production",
+  "document": {
+    "_createdAt": "2026-10-27T21:05:27Z",
+    "_id": "9f702a20-37be-48c4-a954-7bb9f1a39d5d",
+    "_rev": "pR9eTOqkSKLxQuUietrSM1",
+    "_type": "testimonial",
+    "_updatedAt": "2026-11-01T15:34:14Z",
+    "clientName": "Gulia",
+    "designation": "Founder",
+    "logo": {
+      "_type": "image",
+      "asset": {
+        "_ref": "image-b1679680a4f209ec6267a8237f41ea360df4a6b2-388x110-png",
+        "_type": "reference"
+      }
+    },
+    "name": "Suze",
+    "orderRank": "0|100014:",
+    "testimonial": "“I love it—you absolutely nailed it! Honestly, you’ve been amazing to work with. So thank you, and really, well done.”"
+  }
+}

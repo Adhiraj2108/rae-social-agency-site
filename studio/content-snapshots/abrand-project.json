@@ -1,0 +1,87 @@
+{
+  "projectId": "khgb3vuz",
+  "dataset": "production",
+  "document": {
+    "_createdAt": "2026-10-27T21:05:27Z",
+    "_id": "e845c940-303a-4a44-9bd7-c3ec9b73084a",
+    "_rev": "rYarAQafMS8Bg1LLlqu9ZI",
+    "_type": "project",
+    "_updatedAt": "2026-11-01T15:32:06Z",
+    "approach": "We balanced strong product shots with lifestyle footage, creating effortless, adventurous and premium edits that captured the spirit of the campaigns.",
+    "brief": "Abrand needed complete post-production for two campaigns shot in America, with content for General Pants’ in-store displays, Abrand’s website and social channels.",
+    "clientName": "Abrand Jeans x RipCurl",
+    "moreVideos": [
+      {
+        "_key": "5e469005f5714ab28b56252c07cb7e6a",
+        "_type": "reel",
+        "src": "https://vz-a9787108-ab4.b-cdn.net/4644af8b-0940-4130-90f8-91367dfa4964/playlist.m3u8",
+        "thumbnailSrc": "https://vz-a9787108-ab4.b-cdn.net/4644af8b-0940-4130-90f8-91367dfa4964/thumbnail.jpg"
+      },
+      {
+        "_key": "d5a455c8fe5b457d94cee8e0e322101e",
+        "_type": "reel",
+        "src": "https://vz-a9787108-ab4.b-cdn.net/6a45684d-31a5-44bc-b5f0-8ec69e0632f3/playlist.m3u8",
+        "thumbnailSrc": "https://vz-a9787108-ab4.b-cdn.net/6a45684d-31a5-44bc-b5f0-8ec69e0632f3/thumbnail.jpg"
+      },
+      {
+        "_key": "0a2ed0f5e9334d65ae76b0d743ffee94",
+        "_type": "reel",
+        "src": "https://vz-a9787108-ab4.b-cdn.net/2604b7b3-4c78-43f3-9597-86232b46190d/playlist.m3u8",
+        "thumbnailSrc": "https://vz-a9787108-ab4.b-cdn.net/2604b7b3-4c78-43f3-9597-86232b46190d/thumbnail.jpg"
+      }
+    ],
+    "name": "LA Campaign Post-production",
+    "orderRank": "0|10000o:",
+    "results": [
+      {
+        "_key": "4376ebc54233",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "dfb82e5bcd82",
+            "_type": "span",
+            "marks": [],
+            "text": "The content received "
+          },
+          {
+            "_key": "eb5640bdac5e",
+            "_type": "span",
+            "marks": [
+              "strong"
+            ],
+            "text": "63,000 views across Abrand’s social channels"
+          },
+          {
+            "_key": "24f065ea0285",
+            "_type": "span",
+            "marks": [],
+            "text": ", with the client saying they were "
+          },
+          {
+            "_key": "de84543f9f9a",
+            "_type": "span",
+            "marks": [
+              "strong"
+            ],
+            "text": "“blown away”"
+          },
+          {
+            "_key": "ae2b098e314c",
+            "_type": "span",
+            "marks": [],
+            "text": " by the final result."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      }
+    ],
+    "servicesProvided": "Post-production",
+    "slug": {
+      "_type": "slug",
+      "current": "abrand-ripcurl-la-campaign"
+    },
+    "thumbnailUrl": "https://vz-a9787108-ab4.b-cdn.net/72fa6cd1-ec1f-4356-9bc2-06b3f9c2bc6a/thumbnail_283e038f.jpg",
+    "videoSrc": "https://vz-a9787108-ab4.b-cdn.net/72fa6cd1-ec1f-4356-9bc2-06b3f9c2bc6a/playlist.m3u8"
+  }
+}
